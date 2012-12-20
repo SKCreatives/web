@@ -4,7 +4,16 @@ block title
 
 append stylesheets
 	style
-		/* some inline style */
+		article {
+			width: 100%;
+			height: 100%;
+			background-image: url('/static/img/bg.png');
+			background-repeat: no-repeat;
+			-webkit-background-size: 100% 100%;
+			-moz-background-size: 100% 100%;
+				-o-background-size: 100% 100%;
+					background-size: 100% 100%;
+		}
 
 append bodyscripts
 	script
@@ -12,5 +21,4 @@ append bodyscripts
 
 block content
 	article
-		h1 Sidekick
-		p Welcome to Sidekick!
+		
