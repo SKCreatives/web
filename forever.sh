@@ -18,8 +18,8 @@ PWD=`pwd`
 if [ $(ps aux | grep nordic | grep sidekick-live | grep -v grep | wc -l | tr -s "\n") -eq 0 ]
 then
     export NODE_ENV=production
-    export PATH=$HOME/bin:$PATH
-    forever $HOME/bin/nodemon \
+    export PATH=$HOME/local/bin:$PATH
+    forever $HOME/local/bin/nodemon \
     --exitcrash $PWD/app.js \
     --ptitle    "sidekick-live" \
     --port      "11690" \
