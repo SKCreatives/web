@@ -5,7 +5,7 @@
   "description": "The website",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --debug app.js --port '3001'",
+    "start": "nodemon --debug app.js --port '11690'",
     "test": "a"
   },
   "repository": {

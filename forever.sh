@@ -22,7 +22,7 @@ then
     forever $HOME/bin/nodemon \
     --exitcrash $PWD/app.js \
     --ptitle    "sidekick-live" \
-    --port      "15197" \
+    --port      "11690" \
     >> $PWD/logs/forever.log
     echo "----- Starting Forever for sidekick-live" >> $PWD/logs/forever.log
     date >> $PWD/logs/forever.log
