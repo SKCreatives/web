@@ -1,0 +1,24 @@
+{
+  "name": "Sidekick",
+  "version": "0.0.1",
+  "private": true,
+  "description": "The website",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --debug app.js --port '3001'",
+    "test": "a"
+  },
+  "repository": {
+    "type": "https://tmslnz@bitbucket.org/theworkers/sidekick.git",
+    "url": "a"
+  },
+  "keywords": [
+    "a"
+  ],
+  "author": "The Workers",
+  "license": "All rights reserved Sidekick Creatives Ltd",
+  "dependencies": {
+    "express": "~3.0.5",
+    "jade": "*"
+  }
+}

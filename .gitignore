@@ -1,0 +1,11 @@
+# Mac stuff
+.DS_Store
+
+# Node stuff
+node_modules
+npm-debug.log
+nohup.out
+logs/*
+
+# Include
+!.gitkeep
