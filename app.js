@@ -55,7 +55,7 @@ app.set('view engine', 'jade');
 
 
 // Middleware
-app.use(express.favicon());
+app.use(express.favicon(__dirname, 'public/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
