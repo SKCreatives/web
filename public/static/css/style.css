@@ -2,7 +2,7 @@ html {
   -webkit-text-size-adjust: none;
 }
 body {
-  font-family: 'Arial Narrow', 'Nimbus Sans L', sans-serif;
+  font-family: 'Arial Narrow', 'Nimbus Sans L', 'AvenirNextCondensed-Medium', sans-serif;
   font-size: 24px;
   line-height: 30px;
   letter-spacing: 1px;
@@ -71,7 +71,7 @@ isindex {
   -webkit-text-size-adjust: none;
   margin: 0;
   padding: 0;
-  font-family: 'Arial Narrow', 'Nimbus Sans L', sans-serif;
+  font-family: 'Arial Narrow', 'Nimbus Sans L', 'AvenirNextCondensed-Medium', sans-serif;
   font-size: 24px;
   letter-spacing: 1px;
   color: #808080;
@@ -139,4 +139,7 @@ p.blurb {
   position: absolute;
   top: 0;
   left: 0;
+}
+@media only screen and (max-device-width: 1136px) and (min-device-width: 960px) and (device-height: 640px), only screen and (max-device-height: 1136px) and (min-device-height: 960px) and (device-width: 640px) {
+  /* iPhone only */
 }
