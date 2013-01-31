@@ -39,7 +39,7 @@ app.locals.siteName = 'Sidekick';
 args
   .version('0.0.1')
   .option('-p, --port <port>',          'specify the port [11690]',           Number, 11690)
-  .option('-t, --ptitle <Proc_Title>',  'specify the process title [myapp]',  String, 'nordicarch.com(live)')
+  .option('-t, --ptitle <Proc_Title>',  'specify the process title [myapp]',  String, 'sidekickcreatives.com(live)')
   .parse(process.argv);
 
 

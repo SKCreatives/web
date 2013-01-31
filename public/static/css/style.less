@@ -1,3 +1,169 @@
-html { height: 100% }
-body { height: 100%; margin: 0; padding: 0 }
-#root { height: 100% }
+@black: rgb(53,51,51);
+@grey: rgb(128, 128, 128);
+@lineHeight: 30px;
+@fontFamily: 'Arial Narrow','Nimbus Sans L',sans-serif;
+@fontSize: 24px;
+@verticalMargin: 60px;
+
+html {
+	-webkit-text-size-adjust: none;
+}
+body {
+	font-family: @fontFamily;
+	font-size: @fontSize;
+	line-height: @lineHeight;
+	letter-spacing: 1px;
+	color: @black;
+}
+
+header > h1 {
+	display: none;
+}
+
+header,
+section,
+footer {
+	width: 380px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: @verticalMargin;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+a {
+	text-decoration: none;
+	color: @black;
+	padding-bottom: 1px;
+	border-bottom-width: 2px;
+	border-bottom-color: @black;
+	border-bottom-style: solid;
+}
+
+
+.inline {
+	display: inline-block;
+}
+
+.contact,
+.facebook,
+.twitter {
+	text-align: center;
+	width: 33%;
+	a {
+		border-bottom: none;
+	}
+}
+
+.divider {
+	width: 100%;
+	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: @verticalMargin;
+	margin-bottom: @verticalMargin;
+	border-style: none;
+	height: 2px;
+	background-color: @black;
+}
+
+.hidden {
+	display: none;
+}
+
+input,
+textarea,
+keygen,
+select,
+button,
+isindex {
+	&:focus {
+		outline: none;
+	}
+	border: none;
+  border-radius: 0;
+	background-color: transparent;
+  -webkit-appearance: none;
+	-webkit-user-select: text;
+	-webkit-text-size-adjust: none;
+	margin: 0;
+	padding: 0;
+	font-family: @fontFamily;
+	font-size: @fontSize;
+	letter-spacing: 1px;
+	color: @grey;
+	display: inline-block;
+}
+
+input[type="submit"] {
+	cursor: pointer;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+input[name="cm-kivt-kivt"] {
+	width: 250px;
+	padding-bottom: 2px;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+}
+
+.logo {
+	width: 758px/2;
+	height: 230px/2;
+	margin-top: @verticalMargin;
+	// margin-bottom: @verticalMargin;
+	background-repeat: no-repeat;
+  -webkit-background-size: 100% 100%;
+     -moz-background-size: 100% 100%;
+       -o-background-size: 100% 100%;
+          background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-image: url('/static/img/logo.png');
+}
+
+.nocollapse {
+	min-height: 85px;
+}
+
+.campaign-monitor {
+	p {
+		text-align: center;
+	}
+}
+
+span.text-micro {
+	display: block;
+}
+
+.text-micro {
+	font-size: 9px;
+}
+
+.collapsible {
+	height: 0;
+	overflow: hidden;
+}
+
+.text-body {
+	h2 {
+		font-weight: 600;
+		margin-bottom: @lineHeight;
+	}
+
+	p {
+		margin-bottom: @lineHeight;
+	}
+}
+
+.description {
+	position: relative;
+}
+
+p.blurb {
+	cursor: pointer;
+	margin-bottom: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+}

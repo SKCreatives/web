@@ -1,29 +1,45 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# cron it:
-# * * * * * /home/nordic/webapps/nordicarch_com/forever.sh >> cron.log 2>&1
+# To start at @reboot, run crontab -e and append this:
+# @reboot ~/webapps/APP/forever.sh >> ~/webapps/APP/logs/cron.log 2>&1
 
-# if [ `ps -u USERNAME | grep -i PROCESS | wc -l` -lt 1 ]
-# then
-#     echo "Starting <PROCESS>."
-#     <enter the command to start your process here>
-# else
-#     echo "<PROCESS> is running."
-# fi
+# start from console:
+# ./forever.sh
 
-# to start form console use nohup ./forever.sh
+# Webapp
+WEBAPP=sidekickcreatives_com
+APPORT=11690
+APPDIR=$HOME/webapps/$WEBAPP
+NODE_ENV=production
 
-PWD=`pwd`
-
-if [ $(ps aux | grep nordic | grep sidekick-live | grep -v grep | wc -l | tr -s "\n") -eq 0 ]
-then
-    export NODE_ENV=production
-    export PATH=$HOME/local/bin:$PATH
-    forever $HOME/local/bin/nodemon \
-    --exitcrash $PWD/app.js \
-    --ptitle    "sidekick-live" \
-    --port      "11690" \
-    >> $PWD/logs/forever.log
-    echo "----- Starting Forever for sidekick-live" >> $PWD/logs/forever.log
-    date >> $PWD/logs/forever.log
+# Check if we aren't already running
+#			`forever list` or…
+#     `ps ux -G theworkers` for non-Forever processes
+if [ $(forever list | grep -P -- '(--?p(ort)?\s+'${APPORT}')|('${WEBAPP}')' | grep -v grep | wc -l | tr -s "\n") -gt 0 ]; then
+	echo "${WEBAPP} is already running"
+	echo "Node.js is $(which node)"
+	exit 99
 fi
+
+forever start \
+	-l ${WEBAPP}.log \
+	-o logs/forever-out.log \
+	-e logs/forever-err.log \
+	--append \
+	--sourceDir $APPDIR \
+	app.js \
+		--ptitle "sidekick-live" \
+		--port   "11690"
+
+# If forever exits with error
+if [ "$?" == "0" ]
+	then
+	echo "Starting Forever for ${WEBAPP}"
+	echo "Node.js is $(which node)"
+fi
+
+# Clear variables just in case…
+unset WEBAPP
+unset APPORT
+unset APPDIR
+unset NODE_ENV

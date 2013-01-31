@@ -3,22 +3,77 @@ extends layout
 //- block title
 
 append stylesheets
-	style
-		#root {
-			width: 100%;
-			height: 100%;
-			background-image: url('/static/img/bg.png');
-			background-repeat: no-repeat;
-			-webkit-background-size: 100% 100%;
-			-moz-background-size: 100% 100%;
-				-o-background-size: 100% 100%;
-					background-size: 100% 100%;
-		}
+  style
+    #root {
+    }
 
-append bodyscripts
-	script
-		// console.log('mario');
+block header
+  div.logo
 
 block content
-	article
-		
+  article.text-body.description
+    div.nocollapse
+      p.blurb Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms 
+        a.more(href='') …
+
+      div.collapsible
+        :markdown
+          Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms. Our vision is to bring better art and design in the world and build trusted relationship between project creators and their backers.
+          Our team is made up of independent creative practitioners who offer many different services needed for a campaign. It goes from promotional video to business advice.
+          Having a project supported by Sidekick Creatives assures to the backers and the community that the promises made by the creator will be fulfilled and delivered in due time.
+
+          ## Who is this for?
+          We strongly believe in collaboration and are excited to work on passionate projects. Sidekick Creatives is for people with a creative project that needs funding in order to be completed. It is for people who are as passionate and dedicated about what they are doing as we are about what we do. We expect a high level of commitment as the creator is the campaign owner, we are not.
+
+          ## Do you run crowdfunding campaigns?
+          No. We are only your Sidekick. It is your project and you are the one responsible for creating the campaign. You therefore need to meet all the crowdfunding platform requirements.
+
+          ## What fee do you charge?
+          We only charge a fee if your campaign gets 100% funded or more. Our fee is to be included in your project’s overall budget. If your campaign does not get funded, we will not ask you anything. In other words, we are taking the risks, you are not.
+
+          ## What campaigns have you been involved in?
+          We are currently supporting [Lasso shoes](http://www.kickstarter.com/projects/1851515588/lasso-your-very-own-must-have-slippers-for-ultimat) and we have been involved with the [Mine Kafon project](http://www.kickstarter.com/projects/massoudhassani/mine-kafon/posts) and the [Albatros bookmark](http://www.albatrosbookmark.com/).
+
+          ## Who are Sidekick Creatives?
+          We are all independent London based designers, filmmakers, musicians, creative producers, etc. and most of all we are all good friends. The founders are: Oscar Lhermitte, Molly Anderson, Philipp Figueroa, Tommaso Lanza, Hen Norton, Yoav Reches and Arne Zacher.
+    
+  hr.divider
+
+
+
+  form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
+    p(style='white-space:pre;')
+      | Coming Soon
+      | Subscribe to our newsletter
+    
+    div
+      label(class='hidden', for="kivt-kivt") Email: 
+      input(type="text", name="cm-kivt-kivt", id="kivt-kivt")
+      input(type="submit", value="Subscribe")
+    
+    p.text-micro (We won't nag your inbox. We hate trigger-happy newsletters as much as you do)
+
+  hr.divider
+
+block footer
+  p.inline.button.contact: a(href='mailto:hello@sidekickcreatives.com') Contact
+  p.inline.button.facebook: a(href='//www.facebook.com/SidekickCreatives') Facebook
+  p.inline.button.twitter: a(href='//twitter.com/sidekickcrea') Twitter
+
+append bodyscripts
+  script
+    $(function () {
+      $('#subForm').submit(function (e) {
+        e.preventDefault();
+        $.getJSON(
+        this.action + "?callback=?",
+        $(this).serialize(),
+        function (data) {
+          if (data.Status === 400) {
+            alert("Error: " + data.Message);
+          } else { // 200
+            alert("Success: " + data.Message);
+          }
+        });
+      });
+    });
