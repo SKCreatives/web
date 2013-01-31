@@ -95,6 +95,18 @@ if (app.get('env') === 'development') {
 
 
 
+// Redirect www to no-www
+
+app.all('/*', function(req, res, next) {
+  if (req.headers.host.match(/^www/) !== null ) {
+    res.redirect(301, 'http://' + req.headers.host.replace(/^www\./, '') + req.url);
+  } else {
+    next();     
+  }
+});
+
+
+
 // Routing
 
 var routes = require('./routes');
