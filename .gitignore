@@ -1,8 +1,10 @@
 # Mac stuff
 .DS_Store
 
+public/downloads/*
+
 # Node stuff
-node_modules
+node_modules/
 npm-debug.log
 nohup.out
 logs/*
