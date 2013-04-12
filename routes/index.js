@@ -3,6 +3,10 @@
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Sidekick' });
+module.exports.index = function(req, res){
+  res.render('index');
+};
+
+module.exports.submissions = function(req, res){
+  res.render('submissions');
 };

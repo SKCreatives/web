@@ -1,18 +1,13 @@
 /*global */
 
-// Session GC on timeout
-// function sessionCleanup() {
-//     sessionStore.all(function(n, s) {
-//         for (var i = 0; i < s.length; i++)
-//             sessionStore.get(s[i], function() {} );
-//     }
-// }
-
 var http    = require('http');
 var path    = require('path');
 var express = require('express');
 var lessMW  = require('less-middleware');
 var args    = require('commander');
+var favicons = require('connect-favicons');
+var chromeframe = require('connect-chromeframe');
+var nowww = require('connect-no-www');
 
 express.statik = express.static;
 
@@ -55,7 +50,9 @@ app.set('view engine', 'jade');
 
 
 // Middleware
-app.use(express.favicon(__dirname + '/public/favicon.ico'));
+app.use(nowww());
+app.use(favicons(__dirname + '/public/img'));
+app.use(chromeframe());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -95,23 +92,12 @@ if (app.get('env') === 'development') {
 
 
 
-// Redirect www to no-www
-
-app.all('/*', function(req, res, next) {
-  if (req.headers.host.match(/^www/) !== null ) {
-    res.redirect(301, 'http://' + req.headers.host.replace(/^www\./, '') + req.url);
-  } else {
-    next();     
-  }
-});
-
-
-
 // Routing
 
 var routes = require('./routes');
 
 app.get('/', routes.index);
+app.get('/submissions', routes.submissions);
 
 
 
