@@ -1,0 +1,41 @@
+extends layout
+
+append stylesheets
+  style
+
+block content
+  article.text-body.description
+
+  hr.divider
+
+  form#subForm.text-body.campaign-monitor(action="/send", method="post")
+    p(style='white-space:pre;')
+      | Coming Soon
+      | Subscribe to our newsletter
+    
+    div
+      label(class='hidden', for="kivt-kivt") Email: 
+      input(type="text", name="cm-kivt-kivt", id="kivt-kivt", placeholder='Enter your email here…')
+      input(type="submit", value="Subscribe")
+    
+    p.text-micro (We won't nag your inbox. We hate trigger-happy newsletters as much as you do)
+
+  hr.divider
+
+append bodyscripts
+  script
+    $(function () {
+      $('#subForm').submit(function (e) {
+        e.preventDefault();
+        $.getJSON(
+        this.action + "?callback=?",
+        $(this).serialize(),
+        function (data) {
+          if (data.Status === 400) {
+            alert("Error: " + data.Message);
+          } else { // 200
+            alert("Success: " + data.Message);
+          }
+        });
+      });
+    });
