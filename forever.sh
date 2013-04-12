@@ -21,6 +21,8 @@ if [ $(forever list | grep -P -- '(--?p(ort)?\s+'${APPORT}')|('${WEBAPP}')' | gr
 	exit 99
 fi
 
+cd $APPDIR
+
 forever start \
 	-l ${WEBAPP}.log \
 	-o logs/forever-out.log \
