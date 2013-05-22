@@ -1,7 +1,4 @@
-
-/*
- * GET home page.
- */
+/*jshint es5:true */
 
 module.exports.index = function(req, res){
   res.render('index');
