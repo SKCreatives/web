@@ -23,6 +23,7 @@
     "less-middleware": "~0.1.11",
     "marked": "~0.2.8",
     "nodemon": "~0.7.8",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
+    "request": "~2.21.0"
   }
 }

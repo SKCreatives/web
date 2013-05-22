@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 
 # To start at @reboot, run crontab -e and append this:
-# @reboot ~/webapps/APP/forever.sh >> ~/webapps/APP/logs/cron.log 2>&1
+# @reboot /home/USERNAME/webapps/WEBAPP/forever.sh >> /home/USERNAME/webapps/WEBAPP/logs/cron.log 2>&1
 
 # start from console:
 # ./forever.sh
 
+# Use absolute paths beacuse cron doesn't have the user environment
+
 # Webapp
+USERNAME=sidekick
 WEBAPP=sidekickcreatives_com
 APPORT=11690
-APPDIR=$HOME/webapps/$WEBAPP
+APPDIR=/home/$USERNAME/webapps/$WEBAPP
+APPFILE=index.js
 NODE_ENV=production
 
 # Check if we aren't already running
 #			`forever list` or…
 #     `ps ux -G theworkers` for non-Forever processes
-if [ $(forever list | grep -P -- '(--?p(ort)?\s+'${APPORT}')|('${WEBAPP}')' | grep -v grep | wc -l | tr -s "\n") -gt 0 ]; then
+if [ $(forever list | grep -P -- '('${WEBAPP}')|(--?p(ort)?\s+'${APPORT}')' | grep -v grep | wc -l | tr -s "\n") -gt 0 ]; then
 	echo "${WEBAPP} is already running"
 	echo "Node.js is $(which node)"
 	exit 99
@@ -29,9 +33,7 @@ forever start \
 	-e logs/forever-err.log \
 	--append \
 	--sourceDir $APPDIR \
-	app.js \
-		--ptitle "sidekick-live" \
-		--port   "11690"
+	$APPFILE
 
 # If forever exits with error
 if [ "$?" == "0" ]
@@ -41,7 +43,9 @@ if [ "$?" == "0" ]
 fi
 
 # Clear variables just in case…
+unset USERNAME
 unset WEBAPP
 unset APPORT
 unset APPDIR
+unset APPFILE
 unset NODE_ENV

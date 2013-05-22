@@ -1,46 +1,6 @@
 extends layout
 
-//- block title
-
-append stylesheets
-  style
-    #root {
-    }
-
 block content
-  article.text-body.description
-    div.nocollapse
-      p.blurb Sidekick Creatives help creative projects to be launched on crowdfunding platforms 
-        a.more(href='') …
-
-      div.collapsible
-        :markdown
-          Sidekick Creatives help creative projects to be launched on crowdfunding platforms. Our vision is to realize your vision. We aim to bring better art and design into the world and to build a network of creative people collaborating with each other to achieve this goal.
-
-          Our team is made up of independent creative practitioners who collectively offer all the different services essential for a successful campaign: from promotional video content to business advice.
-
-          ## Who is this for?
-          Sidekick Creatives is for anyone with a creative project that needs funding for it to be realized. We strongly believe in collaboration and are excited to work with people who are as passionate about their work as we are about ours.
-
-          ## Do you run crowdfunding campaigns?
-          No. We are only your Sidekick. It is your project and you are responsible for creating and running the campaign. But, we are here to support you and want your project to succeed; so we do expect a high level of commitment from the campaign owner and you need to meet all the crowdfunding platform requirements.
-
-          ## How does it help me?
-          Most importantly we help you achieve much needed funding to get your project started. We also bring experience from previously successful campaigns. As such, Sidekick Creatives can provide assurance to backers and the crowdfunding community that promises made by the creator will be fulfilled and delivered in due course.
-
-          ## What fee do you charge?
-          Based on the services we think your campaign requires, we provide a quote which is added to your funding objective. You will only pay this fee if the campaign is fully funded (100% - or more). In other words, we take the risk, not you.
-
-          ## What campaigns have you been involved in?
-          We have supported [Lasso shoes](http://www.kickstarter.com/projects/1851515588/lasso-your-very-own-must-have-slippers-for-ultimat), the [Mine Kafon project](http://www.kickstarter.com/projects/massoudhassani/mine-kafon) and the [Albatros bookmark](http://www.indiegogo.com/projects/albatros-bookmarks?website_name=Albatros-bookmarks-1). Sign up to our newsletter to hear about the next campaign.
-
-          ## Who are Sidekick Creatives?
-          We are all independent London based designers, filmmakers, musicians, creative producers, etc. and most of all we are all good friends. The founders are: Oscar Lhermitte, Molly Anderson, Philipp Figueroa, Tommaso Lanza, Hen Norton, Yoav Reches and Arne Zacher.
-    
-  hr.divider
-
-
-
   form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
     p(style='white-space:pre;')
       | Coming Soon
@@ -52,23 +12,3 @@ block content
       input(type="submit", value="Subscribe")
     
     p.text-micro (We won't nag your inbox. We hate trigger-happy newsletters as much as you do)
-
-  hr.divider
-
-append bodyscripts
-  script
-    $(function () {
-      $('#subForm').submit(function (e) {
-        e.preventDefault();
-        $.getJSON(
-        this.action + "?callback=?",
-        $(this).serialize(),
-        function (data) {
-          if (data.Status === 400) {
-            alert("Error: " + data.Message);
-          } else { // 200
-            alert("Success: " + data.Message);
-          }
-        });
-      });
-    });

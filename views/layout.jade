@@ -7,50 +7,54 @@ html
 	head
 		meta(charset='UTF-8')
 		meta(http-equiv='Content-Language', content='en')
-		meta(name='viewport', content='width=device-width')
 		meta(name='author', content='The Workers London Ltd.')
-		meta(name='apple-mobile-web-app-capable',           content='yes')
-		meta(name='apple-mobile-web-app-status-bar-style',  content='black')
-		meta(http-equiv='imagetoolbar',     content='false')
-		meta(http-equiv='X-UA-Compatible',  content='IE=edge,chrome=1')
+		
+		//- Apple - http://developer.apple.com/library/safari/#documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
+		meta(name='viewport', content='width=device-width', id='meta-viewport')
+		meta(name='apple-mobile-web-app-capable', content='yes')
+		meta(name='apple-mobile-web-app-status-bar-style', content='black')
+		meta(name='format-detection', content='telephone=no')
+
+		//- Windows 8 (TileImage should be 144px)
+		meta(name='application-name', content='The Workers')
+		meta(name='msapplication-TileColor', content='#515254')
+		meta(name='msapplication-TileImage', content='apple-touch-icon-144x144-precomposed.png')
+		
+		//- Google
 		meta(name="google-site-verification", content="5ED_CojmDIY-Vcu9E1gJf1NpFzlENz7x9wzlyBp-abw")
+		meta(name="google", content="notranslate")
+		
 		block title
+			- var pageTitle = (typeof title !== 'undefined') ? title + ' — Sidekick Creatives' : 'Sidekick Creatives'
 			title Sidekick Creatives
+
 		block description
-			meta(name='description', content='Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms.')
+			- var pageDescription = (typeof description !== 'undefined') ? description : 'Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms.';
+			meta(name='description', content=pageDescription)
+
 		block stylesheets
 			link(rel='stylesheet', type='text/css', href='/css/reset.css')
 			link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
+
 		block headScripts
-			script(src='/js/lib/html5shiv-printshiv.js')
+			include includes/liveReload.jade
+			script(src='/js/lib/html5shiv-printshiv.js' +cachebust)
+	
+
 	body
 		header
 			h1 Sidekick Creatives
+			div.logo
 			block header
-				div.logo
 
-		section#root
+		div#main
 			block content
 
 		footer
 			p.hidden Website by 
 				a(href='//theworkers.net/', title='The Workers') The Workers.
 			block footer
-				p.inline.button.contact: a(href='mailto:hello@sidekickcreatives.com') Contact
-				p.inline.button.facebook: a(href='//www.facebook.com/SidekickCreatives') Facebook
-				p.inline.button.twitter: a(href='//twitter.com/sidekickcrea') Twitter
 
-	block bodyscripts
-		script(src='/js/lib/jquery-1.8.3.min.js')
-		script(src='/js/lib/underscore-min.js')
-		script(src='/js/o.js' +cachebust)
-		script(src='/js/Util.js' +cachebust)
-		script(src='/js/ui.js' +cachebust)
-		script
-			var sc_project = 8670875;
-			var sc_invisible = 1;
-			var sc_security = "14c8ce86";
-			var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www." );
-			var script = document.createElement('script');
-			script.src = scJsHost + "statcounter.com/counter/counter.js";
-			document.body.insertBefore(script, null)
+		block bodyscripts
+			include includes/analytics.jade
+			script(src='/js/lib/jquery-1.9.1.js' +cachebust)

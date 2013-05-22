@@ -1,6 +1,7 @@
 /*global */
 /*jshint es5:true */
 
+var os           = require('os');
 var fs           = require('fs');
 var path         = require('path');
 var express      = require('express');
@@ -17,31 +18,33 @@ var appConfig    = fs.existsSync('./config.json') ? require('./config.json') : {
 
 var app = module.exports  = express();
 
-
-// Prefill default config and merge with app.locals
-// 
-_(appConfig).defaults({
-  listenPort: 2002,
-  marked: marked
+_.defaults(appConfig, {
+  dataDir: "/data", 
+  listenPort: 2002
 });
-_(app.locals).defaults(appConfig);
+
+_.extend(appConfig, appConfig.host[os.hostname()]);
+_.extend(appConfig, appConfig.mode[app.get('env')]);
+_.extend(app.settings, appConfig);
 
 
 // Load all projects
 // 
 var appData = [];
-var dataDir = __dirname + app.locals.dataDir;
+var dataDir = __dirname + app.get('dataDir');
 var dataFiles = fs.readdirSync(dataDir);
 _.each(dataFiles, function(filename) {
   var buf = fs.readFileSync(dataDir + '/' + filename, 'utf8');
-  var project = [];
+  var docs = [];
   yaml.loadAll(buf, function (doc) {
-    project.push(doc);
+    docs.push(doc);
   });
-  appData.push(project);
+  appData.push(docs);
 });
 
+
 app.locals.data = appData;
+app.locals.marked = marked;
 
 
 // Configuration
@@ -71,17 +74,14 @@ app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 
 // Routing
-
-var routes = require('./routes');
-
-app.get('/', routes.index);
-app.get('/submissions', routes.submissions);
+var site = require('./routes').site;
+app.get('/', site.index);
 
 
 
 // Start server
-app.listen(appConfig.listenPort);
-console.log("Express server listening on", appConfig.listenPort);
+app.listen(app.get('listenPort'));
+console.log("Express server listening on", app.get('listenPort'));
 
 
 
