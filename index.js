@@ -124,6 +124,11 @@ function scrapeProject(project, callback) {
       ks.poll(project.pollUrl, function(err, updated) {
         onPoll(err, updated, project);
       });
+      fs.writeFile(dataDir + '/cached/projects.json', JSON.stringify(projects), function(err) {
+        if (!err) {
+          console.log('Projects successfully cached at ' + dataDir + '/cached/projects.json');
+        }
+      });
     } else {
       setTimeout(function() {
         scrapeProject(project, callback);
