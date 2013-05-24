@@ -39,6 +39,7 @@ _.extend(app.settings, appConfig);
 var projects = app.locals.projects = [];
 var site = app.locals.site = [];
 var dataDir = __dirname + app.get('dataDir');
+var cacheDir = dataDir + '/cached';
 var dataFiles = fs.readdirSync(dataDir);
 _.each(dataFiles, function(filename) {
   var stats = fs.statSync(dataDir + '/' + filename);
@@ -65,7 +66,7 @@ if (cache) {
   _.each(cache, function(cached, i) {
     var isValid = _.findWhere(projects, {ksurl: cached.ksurl});
     if (!isValid) {
-      console.log('deleting', cached.ksurl, 'from cache');
+      console.log(('Removing ' + cached.ksurl + ' from cache').yellow);
       cache.splice(i,1);
     }
   });
@@ -76,8 +77,9 @@ if (cache) {
 async.each(projects, function(project, callback) {
   var cached = _.findWhere(cache, {ksurl: project.ksurl});
   if (!cached) {
-    scrapeProject(project, function(err, data) {
-      callback(err, data);
+    ks.scrape(project.ksurl, function(err, data) {
+      onScrape(err, data, project);
+      callback(err);
     });
   } else {
     _.extend(project, cached);
@@ -98,44 +100,45 @@ async.each(projects, function(project, callback) {
 function onPoll(err, updated, project) {
   if (!err) {
     if (updated) {
-      console.log('Updated', project.ksurl.green, updated)
+      console.log(project.ksurl.green, updated)
       _.extend(project, updated);
-      scrapeProject(project);
+      ks.scrape(project.ksurl, function(err, data) {
+        onScrape(err, data, project);
+      });
     }
   } else {
-    console.log('Polling error');
     ks.unpoll(project.pollUrl);
-    scrapeProject(project, function(err) {
-      if (err) {
-        console.log(err);
+    ks.scrape(project.ksurl, function(err, data) {
+      onScrape(err, data, project);
+      if (!err) {
+        ks.poll(project.pollUrl, function(err, updated) {
+          onPoll(err, updated, project);
+        });
       }
     });
   }
 }
 
-function scrapeProject(project, callback) {
-  ks.scrape(project.ksurl, function(err, data) {
-    if (!err) {
-      // Poll url may have changed
-      ks.unpoll(project.pollUrl);
-      // Extend with new data
-      _.extend(project, data);
-      // Restart polling with new url
-      ks.poll(project.pollUrl, function(err, updated) {
-        onPoll(err, updated, project);
-      });
-      fs.writeFile(dataDir + '/cached/projects.json', JSON.stringify(projects), function(err) {
+function onScrape(err, data, project) {
+  if (!err) {
+    _.extend(project, data);
+    fs.writeFile(cacheDir + '/projects.json', JSON.stringify(projects), function(err) {
+      if (!err) {
+        // console.log('Projects successfully cached at ' + cacheDir + '/projects.json');
+      }
+    });
+  } else {
+    setTimeout(function() {
+      ks.scrape(project.ksurl, function(err, data) {
+        onScrape(err, data, project);
         if (!err) {
-          console.log('Projects successfully cached at ' + dataDir + '/cached/projects.json');
+          ks.poll(project.pollUrl, function(err, updated) {
+            onPoll(err, updated, project);
+          });
         }
       });
-    } else {
-      setTimeout(function() {
-        scrapeProject(project, callback);
-      }, 5000);
-    }
-    if (callback) callback(err, data);
-  });
+    }, 5000);
+  }
 }
 
 
