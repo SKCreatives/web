@@ -38,16 +38,14 @@ html
 
 		block headScripts
 			include includes/liveReload.jade
-			script(src='/js/lib/html5shiv-printshiv.js' +cachebust)
+			script(src='/js/vendor/html5shiv-printshiv.js' +cachebust)
 	
 
 	body
-		header
-			h1 Sidekick Creatives
-			div.logo
-			block header
-
 		div#main
+			header
+				h1 Sidekick Creatives
+				div.logo
 			block content
 
 		footer
@@ -57,4 +55,10 @@ html
 
 		block bodyscripts
 			include includes/analytics.jade
-			script(src='/js/lib/jquery-1.9.1.js' +cachebust)
+			script(src='/js/vendor/jquery-1.10.1.js' +cachebust)
+			script(src='/js/vendor/numeral.js' +cachebust)
+			script(src='/js/vendor/raphael.js' +cachebust)
+			script(src='/js/vendor/jquery.slides.js' +cachebust)
+			script(src='/js/vendor/imagesloaded.pkgd.js' +cachebust)
+			script(src='/js/lib/Stats.js' +cachebust)
+			script(src='/js/index.js' +cachebust)

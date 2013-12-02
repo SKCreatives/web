@@ -2,7 +2,8 @@
 .DS_Store
 
 public/downloads/*
-data/cached/*
+data/cache/*
+public/css/style.css
 
 # Node stuff
 node_modules/
