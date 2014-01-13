@@ -49,41 +49,50 @@ var storage = new Storage(config.storage, storageOptions);
 var projects = [];
 var documents = {};
 
+// Start the scraper
+scraper = scraper({ projects: projects });
+scraper.start();
+
+// function 
 // Load campaigns
-storage.readFile('projects.yaml', {encoding:'utf8'}, function(err, data) {
-  yaml.loadAll(data, function(doc) {
-    doc.storageURI = config.storage;
-    doc.storageOptions = storageOptions;
+function loadCampaigns(callback) {
+  storage.readFile('projects.yaml', {encoding:'utf8'}, function(err, data) {
+    if (err) return callback(err);
 
-    var project = new Project(doc);
-    projects.push(project);
+    var projectsArray = [];
+    try {
+      yaml.safeLoadAll(data, function(doc) {
+        if (!doc) {
+          err = new Error("YAML.safeLoadAll() empty or invalid doc error");
+          return;
+        }
+
+        doc.storageURI = config.storage;
+        doc.storageOptions = storageOptions;
+        projectsArray.push(new Project(doc));
+      });
+    } catch (e) {
+      return callback(e);
+    } finally {
+      if (err) return callback(err);
+      if (projectsArray.length) {
+        projects = app.locals.projects = scraper.projects = projectsArray;
+        callback(null, projects);
+      } else {
+        callback(new Error("loadCampaigns() unknown error. Campaigns not updated."));
+      }
+    }
   });
+}
 
-  scraper = scraper({ projects: projects });
-  scraper.start();
+loadCampaigns(function(err, campaigns) {
+  console.log(err);
 });
 
 // Load documents
 storage.readdir('documents', function(err, filenames, dirStat, stats) {
   console.log(err, stats)
 });
-
-// Set up longpoll_delta for dropbox storage
-if (storage.protocol === 'dropbox') {
-  dropbox = new Dropbox.Client({
-    key: credentials.DROPBOX_APP_KEY,
-    secret: credentials.DROPBOX_APP_SECRET,
-    token: credentials.DROPBOX_TOKEN
-  });
-
-  dropbox.pullChanges(null, function(err, changes) {
-    console.log(err, changes);
-    dropbox.pollForChanges(changes.cursorTag, {}, function(err, result, two) {
-      console.log(err, result, two);
-    });
-  });
-
-}
 
 
 
