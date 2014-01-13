@@ -20,6 +20,7 @@ var Dropbox  = require('dropbox');
 var scraper  = require('./lib/Scraper.js');
 var Project  = require('./lib/Project.js');
 var Storage  = require('./lib/Storage.js');
+var dropMW   = require('./lib/staticDropbox-middleware.js');
 
 var app = module.exports = express();
 var port = process.env.PORT || 3000;
@@ -161,6 +162,8 @@ if (storage.protocol === 'dropbox') {
   async.forever(
     
     function fn(callback) {
+      var reviveTimeoutID = setTimeout(callback, 900000);
+
       setTimeout(function() {
         request.post({ uri: 'https://api.dropbox.com/1/delta', qs: { cursor: cursor || undefined, access_token: credentials.DROPBOX_TOKEN, path_prefix: '/' + storage.root }}, function(err, res, body) {
 
@@ -209,8 +212,6 @@ if (storage.protocol === 'dropbox') {
 
           // Start a new /longpoll_delta request
           dropbox.pollForChanges(cursor, function(err, retry, seconds) {
-            console.log('----------------------')
-            console.log(arguments)
             if (err) {
               retryAfter = (res) ? (res.retryAfter !== void 0) ? res.retryAfter : (res.backoff !== void 0) ? res.backoff : 60 : 60;
               return callback(null);
@@ -223,13 +224,14 @@ if (storage.protocol === 'dropbox') {
               retryAfter = 0;
               callback(null);
             }
-
           });
         });
       }, retryAfter);
     },
     
-    function cb(err) {/* never called */}
+    function cb(err) {
+      console.log(err);
+    }
   );
 }
 
@@ -242,7 +244,7 @@ if (storage.protocol === 'dropbox') {
 _.extend(app.settings, config);
 app.disable('x-powered-by');
 app.locals.settings['views'] = __dirname + '/views';
-app.locals.settings['views engine'] = 'jade';
+app.locals.settings['view engine'] = 'jade';
 app.locals.pretty = false;
 app.locals.basedir = __dirname;
 
@@ -266,9 +268,12 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('skyfall'));
 app.use(express.session());
 app.use(app.router);
-app.use(lessCSS({ src: __dirname + '/public' }));
+app.use(lessCSS({ src: path.join(__dirname, 'public') }));
 app.use(express.directory(path.join(__dirname, 'public'), { icons:true }));
 app.use(express.static(path.join(__dirname, 'public')));
+if (storage.protocol === 'dropbox') {
+  app.use(dropMW('public', storage));
+}
 app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 
