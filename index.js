@@ -190,6 +190,10 @@ if (storage.protocol === 'dropbox') {
           }
 
           // find out where the change has happened
+          if (!entries || !entries.length) {
+            return callback(null)
+          }
+          
           for (var i = 0, entry, filename, basename; i < entries.length; i++) {
             entry = entries[i];
             filename = entry[0];
