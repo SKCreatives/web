@@ -32,5 +32,8 @@
     "dropbox": "0.10.2",
     "nowww": "1.1.2",
     "accounting": "0.3.2"
-  }
+  },
+  "engines": {
+    "node": "0.10.22"
+  },
 }
