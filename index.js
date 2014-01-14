@@ -1,5 +1,3 @@
-var os       = require('os');
-var fs       = require('fs');
 var path     = require('path');
 var http     = require('http');
 var express  = require('express');
@@ -9,9 +7,9 @@ var lessCSS  = require('less-middleware');
 var marked   = require('marked');
 var yaml     = require('js-yaml');
 var async    = require('async');
-var colors   = require('colors');
+var moment   = require('moment');
 var favicons = require('connect-favicons');
-var nowww    = require('connect-no-www');
+var nowww    = require('nowww');
 var request  = require('request');
 var cheerio  = require('cheerio');
 var _        = require('lodash');
@@ -251,6 +249,7 @@ app.locals.basedir = __dirname;
 
 // View utils
 app.locals.marked = marked;
+app.locals.moment = moment;
 
 
 // View data
