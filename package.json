@@ -4,7 +4,7 @@
   "description": "The website",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --debug index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "connect": "2.11.0",
     "moment": "2.4.0",
     "dropbox": "0.10.2",
-    "nowww": "1.1.2"
+    "nowww": "1.1.2",
+    "accounting": "0.3.2"
   }
 }
