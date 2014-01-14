@@ -8,6 +8,7 @@ var marked   = require('marked');
 var yaml     = require('js-yaml');
 var async    = require('async');
 var moment   = require('moment');
+var money    = require('accounting');
 var favicons = require('connect-favicons');
 var nowww    = require('nowww');
 var request  = require('request');
@@ -167,20 +168,25 @@ if (storage.protocol === 'dropbox') {
 
           // If we have an error wait one minute and retry
           if (err) {
-            retryAfter = 60 * 1000;
+            retryAfter = 60;
             return callback(null);
           }
 
+          // Try to parse the response body
+          // Return and retry after 1 minute in case of error
           try {
             body = JSON.parse(body);
           } catch (e) {
-            retryAfter = 60 * 1000;
+            retryAfter = 60;
             return callback(null);
           }
 
+          // If parsing is successful set the cursor value for the next request
+          // Append is true if the response is truncated
           cursor = body.cursor;
           append = body.has_more;
 
+          // If response is truncated create the first entries chunk and retry immediately
           if (append) {
             entries = (entries && entries.length) ? entries.concat(body.entries) : body.entries;
             retryAfter = 0;
@@ -189,31 +195,40 @@ if (storage.protocol === 'dropbox') {
             entries = body.entries;
           }
 
-          // find out where the change has happened
+          // Make sure that entries exist (could be that nothing changed?)
           if (!entries || !entries.length) {
             return callback(null)
           }
           
+          // Scan entries for interesting stuff
+          // We only want to know if project.yaml
+          // or any file in /documents was updated
+          var loadCampaignsOnce = _.once(loadCampaigns);
+          var loadDocumentsOnce = _.once(loadDocuments);
+
           for (var i = 0, entry, filename, basename; i < entries.length; i++) {
             entry = entries[i];
             filename = entry[0];
             basename = path.basename(filename);
-
+            console.log(filename, basename)
             if (basename === 'projects.yaml') {
-              loadCampaigns();
-              break;
+              loadCampaignsOnce(function(err, campaings) {
+                console.log('campaings updated');
+              });
             }
 
             if (filename.match(new RegExp('documents/', 'i'))) {
-              loadDocuments(function(err, docs) {
-                console.log(docs);
+              loadDocumentsOnce(function(err, docs) {
+                console.log('docs updated');
               });
-              break;
             }
           }
 
-          // Start a new /longpoll_delta request
-          dropbox.pollForChanges(cursor, function(err, retry, seconds) {
+          // Start a new /longpoll_delta request.
+          // This will establish connection and wait until a response is received
+          // at which point the connection is closed and we call callback
+          dropbox.pollForChanges(cursor, function(err, res) {
+            console.log('change response received', res)
             if (err) {
               retryAfter = (res) ? (res.retryAfter !== void 0) ? res.retryAfter : (res.backoff !== void 0) ? res.backoff : 60 : 60;
               return callback(null);
@@ -228,7 +243,7 @@ if (storage.protocol === 'dropbox') {
             }
           });
         });
-      }, retryAfter);
+      }, retryAfter * 1000);
     },
     
     function cb(err) {
@@ -254,7 +269,7 @@ app.locals.basedir = __dirname;
 // View utils
 app.locals.marked = marked;
 app.locals.moment = moment;
-
+app.locals.money = money;
 
 // View data
 app.locals.projects = projects;
