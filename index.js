@@ -138,31 +138,29 @@ loadDocuments(function(err, docs) {
 
 if (storage.protocol === 'dropbox') {
   dropPoll(storage.root, credentials.DROPBOX_TOKEN).on('changes', function(entries) {
-    console.log('>>>>>>  emitting event changes')
-    // console.log(entries);
-    // // Scan entries for interesting stuff
-    // // We only want to know if project.yaml
-    // // or any file in /documents was updated
-    // var loadCampaignsOnce = _.once(loadCampaigns);
-    // var loadDocumentsOnce = _.once(loadDocuments);
+    // Scan entries for interesting stuff
+    // We only want to know if project.yaml
+    // or any file in /documents was updated
+    var loadCampaignsOnce = _.once(loadCampaigns);
+    var loadDocumentsOnce = _.once(loadDocuments);
 
-    // for (var i = 0, entry, filename, basename; i < entries.length; i++) {
-    //   entry = entries[i];
-    //   filename = entry[0];
-    //   basename = path.basename(filename);
-    //   console.log(filename, basename)
-    //   if (basename === 'projects.yaml') {
-    //     loadCampaignsOnce(function(err, campaings) {
-    //       console.log('campaings updated');
-    //     });
-    //   }
+    for (var i = 0, entry, filename, basename; i < entries.length; i++) {
+      entry = entries[i];
+      filename = entry[0];
+      basename = path.basename(filename);
+      console.log(filename, basename)
+      if (basename === 'projects.yaml') {
+        loadCampaignsOnce(function(err, campaings) {
+          console.log('campaings updated');
+        });
+      }
 
-    //   if (filename.match(new RegExp('documents/', 'i'))) {
-    //     loadDocumentsOnce(function(err, docs) {
-    //       console.log('docs updated');
-    //     });
-    //   }
-    // }
+      if (filename.match(new RegExp('documents/', 'i'))) {
+        loadDocumentsOnce(function(err, docs) {
+          console.log('docs updated');
+        });
+      }
+    }
   });
 }
 
