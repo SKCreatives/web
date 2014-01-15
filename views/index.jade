@@ -1,5 +1,52 @@
 extends layout
 
+- var now = moment();
+
+//- Highlights Mixin
+//- ================
+mixin highlight-card(p)
+	- var currencySymbols = {GBP:'£', EUR:'€', USD:'$'};
+	div.highlight.card
+		div.highlight-img.img
+			img(src='/img/bg.png')
+		
+		div.title
+			h3= p.title
+		div.stats.ibc(
+			data-endTime=p.endTime,
+			data-launchTime=p.launchTime,
+			data-backersCount=p.backersCount
+			data-currency=p.currency,
+			data-goal=p.goal,
+			data-pledged=p.pledged,
+			)
+			div.backers.ib
+				div.graph
+				div.caption
+					span Backers
+			div.pledges.ib
+				div.graph
+				div.caption
+					span.hidden
+					span.goal= money.formatMoney(p.goal, { symbol: currencySymbols[p.currency] })
+					span  goal
+			div.days-remaining.ib
+				div.graph
+				div.caption
+					span= humanTimeLeft
+					span.data.days=moment(timeLeft)
+					span  days to go.
+					span.hidden  (of 
+					//- span.hidden.data.duration= moment(p.endTime - p.launchTime).days()
+					span.hidden )
+			div.back-project.ib
+				div.graph
+					div.text $
+				div.caption
+					span Back this project
+
+
+
 block content
 	section#index
 		div.nav-menu
@@ -10,57 +57,20 @@ block content
 				li.nav-menu-item: a(href='#case-studies', title='Case Studies') Case Studies
 				li.nav-menu-item: a(href='#archive', title='Archive of supported projects') Archive
 
+
 	section#highlights
 		h2.section-title.hidden Highlights
 		each project in projects
-			//- if project.highlight
-			div.highlight.card
-				div.highlight-img.img
-					img(src='/img/bg.png')
-				
-				div.title
-					h3= project.title
-				
-				div.stats.ibc
-					
-					div.backers.ib
-						div.graph
-						div.caption
-							span.data= project.backersCount
-							span Backers
+			if project.highlight
+				//- - var timeLeft = (project.endTime.diff(now) > 0) ? project.endTime.diff(now) : 0;
+				//- - var humanTimeLeft = project.endTime.fromNow();
+				+highlight-card(project)
 
-					div.pledges.ib
-						div.graph
-						div.caption
-							span.hidden
-							span.data.pledged= project.pledged
-							span  of 
-							span.data.goal= project.goal
-							span  goal
-
-					div.days-remaining.ib
-						div.graph
-						div.caption
-							span.data.days= Math.floor(project.hoursRemaining / 24)
-							span  days to go.
-							span.hidden  (of 
-							span.hidden.data.duration= project.duration
-							span.hidden )
-
-					div.back-project.ib
-						div.graph
-							div.text $
-						div.caption
-							span Back this project
 
 	section#apply
 		div.section-header
 			h2 Apply
-		div.paragraph.paragraph-wide
-			:markdown
-				If you have a project and would like Sidekick to consider it, please email us at submit(at)sidekickcreatives.com
-				Before working together, we need to get as much information as possible about you and your project. Sidekick assures you that all contents submitted will stay confidential.
-				Please provide us with all the elements asked below.
+		div.paragraph.paragraph-wide!= marked(documents.apply)
 
 	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
 		p(style='white-space:pre;')
