@@ -20,6 +20,7 @@ var scraper  = require('./lib/Scraper.js');
 var Project  = require('./lib/Project.js');
 var Storage  = require('./lib/Storage.js');
 var dropMW   = require('./lib/staticDropbox-middleware.js');
+var dropPoll = require('./lib/dropboxPoller.js');
 
 var app = module.exports = express();
 var port = process.env.PORT || 3000;
@@ -132,124 +133,37 @@ loadDocuments(function(err, docs) {
 });
 
 
-// Set up longpoll_delta for dropbox storage
 
-// SAMPLE /delta response
-// { has_more: false,
-//   cursor: 'AAGMGdckdwksp26gctmUj51Pydzd3LEUgCQefhdeJ07ql2RTjc2U5NGa8U-iKITnoxmPix8ls8qXEGECarLP3xEFhRdXXCtaexYUq62noiYnXFjo-fBpQEHOJ3KnBPB0A0rzTKIOKS3Ez1XXBVNsAQ0F',
-//   entries: 
-//    [ [ '/apps/sk/cache/90fa9edeb2ece231c818059ae755a4f4.json',
-//        [Object] ] ],
-//   reset: false }
 
-// SAMPLE /longpoll_delta response
-// { hasChanges: true, retryAfter: 0, backoff: 60 }
 
 if (storage.protocol === 'dropbox') {
+  dropPoll(storage.root, credentials.DROPBOX_TOKEN).on('changes', function(entries) {
+    console.log('>>>>>>  emitting event changes')
+    // console.log(entries);
+    // // Scan entries for interesting stuff
+    // // We only want to know if project.yaml
+    // // or any file in /documents was updated
+    // var loadCampaignsOnce = _.once(loadCampaigns);
+    // var loadDocumentsOnce = _.once(loadDocuments);
 
-  dropbox = new Dropbox.Client({
-    key: credentials.DROPBOX_APP_KEY,
-    secret: credentials.DROPBOX_APP_SECRET,
-    token: credentials.DROPBOX_TOKEN
+    // for (var i = 0, entry, filename, basename; i < entries.length; i++) {
+    //   entry = entries[i];
+    //   filename = entry[0];
+    //   basename = path.basename(filename);
+    //   console.log(filename, basename)
+    //   if (basename === 'projects.yaml') {
+    //     loadCampaignsOnce(function(err, campaings) {
+    //       console.log('campaings updated');
+    //     });
+    //   }
+
+    //   if (filename.match(new RegExp('documents/', 'i'))) {
+    //     loadDocumentsOnce(function(err, docs) {
+    //       console.log('docs updated');
+    //     });
+    //   }
+    // }
   });
-
-  var retryAfter = 0; // Seconds
-  var cursor;
-  var entries;
-  var append;
-
-  async.forever(
-    
-    function fn(callback) {
-      var reviveTimeoutID = setTimeout(callback, 900000);
-
-      setTimeout(function() {
-        request.post({ uri: 'https://api.dropbox.com/1/delta', qs: { cursor: cursor || undefined, access_token: credentials.DROPBOX_TOKEN, path_prefix: '/' + storage.root }}, function(err, res, body) {
-
-          // If we have an error wait one minute and retry
-          if (err) {
-            retryAfter = 60;
-            return callback(null);
-          }
-
-          // Try to parse the response body
-          // Return and retry after 1 minute in case of error
-          try {
-            body = JSON.parse(body);
-          } catch (e) {
-            retryAfter = 60;
-            return callback(null);
-          }
-
-          // If parsing is successful set the cursor value for the next request
-          // Append is true if the response is truncated
-          cursor = body.cursor;
-          append = body.has_more;
-
-          // If response is truncated create the first entries chunk and retry immediately
-          if (append) {
-            entries = (entries && entries.length) ? entries.concat(body.entries) : body.entries;
-            retryAfter = 0;
-            return callback(null);
-          } else {
-            entries = body.entries;
-          }
-
-          // Make sure that entries exist (could be that nothing changed?)
-          if (!entries || !entries.length) {
-            return callback(null)
-          }
-          
-          // Scan entries for interesting stuff
-          // We only want to know if project.yaml
-          // or any file in /documents was updated
-          var loadCampaignsOnce = _.once(loadCampaigns);
-          var loadDocumentsOnce = _.once(loadDocuments);
-
-          for (var i = 0, entry, filename, basename; i < entries.length; i++) {
-            entry = entries[i];
-            filename = entry[0];
-            basename = path.basename(filename);
-            console.log(filename, basename)
-            if (basename === 'projects.yaml') {
-              loadCampaignsOnce(function(err, campaings) {
-                console.log('campaings updated');
-              });
-            }
-
-            if (filename.match(new RegExp('documents/', 'i'))) {
-              loadDocumentsOnce(function(err, docs) {
-                console.log('docs updated');
-              });
-            }
-          }
-
-          // Start a new /longpoll_delta request.
-          // This will establish connection and wait until a response is received
-          // at which point the connection is closed and we call callback
-          dropbox.pollForChanges(cursor, function(err, res) {
-            console.log('change response received', res)
-            if (err) {
-              retryAfter = (res) ? (res.retryAfter !== void 0) ? res.retryAfter : (res.backoff !== void 0) ? res.backoff : 60 : 60;
-              return callback(null);
-            }
-
-            if (res.hasChanges) {
-              retryAfter = res.retryAfter;
-              callback(null);
-            } else {
-              retryAfter = 0;
-              callback(null);
-            }
-          });
-        });
-      }, retryAfter * 1000);
-    },
-    
-    function cb(err) {
-      console.log(err);
-    }
-  );
 }
 
 
