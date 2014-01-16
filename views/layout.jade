@@ -8,6 +8,9 @@ html
 		meta(charset='UTF-8')
 		meta(http-equiv='Content-Language', content='en')
 		meta(name='author', content='The Workers London Ltd.')
+
+		title= title ? title + ' — Sidekick Creatives' : 'Sidekick Creatives'
+		meta(name='description', content=description || 'Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms.')
 		
 		//- Apple - http://developer.apple.com/library/safari/#documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
 		meta(name='viewport', content='width=device-width', id='meta-viewport')
@@ -23,29 +26,18 @@ html
 		//- Google
 		meta(name="google-site-verification", content="5ED_CojmDIY-Vcu9E1gJf1NpFzlENz7x9wzlyBp-abw")
 		meta(name="google", content="notranslate")
-		
-		block title
-			- var pageTitle = (typeof title !== 'undefined') ? title + ' — Sidekick Creatives' : 'Sidekick Creatives'
-			title Sidekick Creatives
 
-		block description
-			- var pageDescription = (typeof description !== 'undefined') ? description : 'Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms.';
-			meta(name='description', content=pageDescription)
+		link(rel='stylesheet', type='text/css', href='/css/reset.css')
+		link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
 
-		block stylesheets
-			link(rel='stylesheet', type='text/css', href='/css/reset.css')
-			link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
-
+		include includes/liveReload.jade
+		script(src='/js/vendor/html5shiv-printshiv.js' +cachebust)
 		block headScripts
-			include includes/liveReload.jade
-			script(src='/js/vendor/html5shiv-printshiv.js' +cachebust)
-	
 
 	body
 		div#main
 			header
-				h1 Sidekick Creatives
-				div.logo
+				h1.logo: span.hidden Sidekick Creatives
 			block content
 
 		footer
@@ -55,10 +47,13 @@ html
 
 		block bodyscripts
 			include includes/analytics.jade
-			script(src='/js/vendor/jquery-1.10.1.js' +cachebust)
-			script(src='/js/vendor/numeral.js' +cachebust)
-			script(src='/js/vendor/raphael.js' +cachebust)
-			script(src='/js/vendor/jquery.slides.js' +cachebust)
+			script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+			script window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.2.min.js"><\/script>')
+			//- script(src='//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.2/numeral.min.js')
+			//- script window.jQuery || document.write('<script src="/js/vendor/numeral.min.js"><\/script>')
+			script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js')
+			script window.Raphael || document.write('<script src="/js/vendor/raphael.js"><\/script>')
+			script(src='/js/vendor/jquery.slides.min.js' +cachebust)
 			script(src='/js/vendor/imagesloaded.pkgd.js' +cachebust)
 			script(src='/js/lib/Stats.js' +cachebust)
 			script(src='/js/index.js' +cachebust)
