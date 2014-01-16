@@ -31,7 +31,7 @@
     "moment": "2.4.0",
     "dropbox": "0.10.2",
     "nowww": "1.1.2",
-    "accounting": "0.3.2"
+    "numeral": "1.5.3"
   },
   "engines": {
     "node": "0.10.22"
