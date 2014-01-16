@@ -1,14 +1,16 @@
 extends layout
 
-- var now = moment();
 
 //- Highlights Mixin
 //- ================
 mixin highlight-card(p)
+	- var now = moment();
 	- var symbol = {GBP:'£', EUR:'€', USD:'$'}[p.currency];
+	- var daysLeft = moment(p.endTime).diff(now, 'days');
+	- var backCaption = (daysLeft > 0) ? 'Back this project' : (p.pledged >= p.goal) ? 'Successfully funded' : 'Ended';
 	div.highlight.card
 		div.highlight-img.img
-			img(src='/img/bg.png')
+			img(src=p.poster || '/img/bg.png')
 		
 		div.title
 			h3= p.title
@@ -22,25 +24,20 @@ mixin highlight-card(p)
 			)
 			div.backers.ib
 				div.graph
-				div.caption
-					span Backers
+				div.caption Backers
 			div.pledges.ib
 				div.graph
 				div.caption= symbol + numeral(p.goal).format('0,0') + ' goal'
 			div.days-remaining.ib
 				div.graph
-				div.caption
-					span= humanTimeLeft
-					span.data.days=moment(timeLeft)
-					span  days to go.
-					span.hidden  (of 
-					//- span.hidden.data.duration= moment(p.endTime - p.launchTime).days()
-					span.hidden )
+				div.caption= ( (daysLeft > 0) ? daysLeft : 0 ) + ' days to go'
 			div.back-project.ib
 				div.graph
 					div.text $
-				div.caption
-					span Back this project
+				if (daysLeft > 0)
+					div.caption: a(href=p.uri)= backCaption
+				else
+					div.caption= backCaption
 
 
 
@@ -59,14 +56,11 @@ block content
 		h2.section-title.hidden Highlights
 		each project in projects
 			if project.highlight
-				//- - var timeLeft = (project.endTime.diff(now) > 0) ? project.endTime.diff(now) : 0;
-				//- - var humanTimeLeft = project.endTime.fromNow();
 				+highlight-card(project)
 
 
 	section#apply
-		div.section-header
-			h2 Apply
+		h2.section-header Apply
 		div.paragraph.paragraph-wide!= marked(documents.apply)
 
 	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
