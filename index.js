@@ -8,7 +8,7 @@ var marked   = require('marked');
 var yaml     = require('js-yaml');
 var async    = require('async');
 var moment   = require('moment');
-var money    = require('accounting');
+var numeral  = require('numeral');
 var favicons = require('connect-favicons');
 var nowww    = require('nowww');
 var request  = require('request');
@@ -179,9 +179,10 @@ app.locals.basedir = __dirname;
 
 
 // View utils
+app.locals._ = _;
 app.locals.marked = marked;
 app.locals.moment = moment;
-app.locals.money = money;
+app.locals.numeral = numeral;
 
 // View data
 app.locals.projects = projects;

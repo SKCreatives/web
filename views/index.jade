@@ -5,7 +5,7 @@ extends layout
 //- Highlights Mixin
 //- ================
 mixin highlight-card(p)
-	- var currencySymbols = {GBP:'£', EUR:'€', USD:'$'};
+	- var symbol = {GBP:'£', EUR:'€', USD:'$'}[p.currency];
 	div.highlight.card
 		div.highlight-img.img
 			img(src='/img/bg.png')
@@ -26,10 +26,7 @@ mixin highlight-card(p)
 					span Backers
 			div.pledges.ib
 				div.graph
-				div.caption
-					span.hidden
-					span.goal= money.formatMoney(p.goal, { symbol: currencySymbols[p.currency] })
-					span  goal
+				div.caption= symbol + numeral(p.goal).format('0,0') + ' goal'
 			div.days-remaining.ib
 				div.graph
 				div.caption
