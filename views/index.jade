@@ -26,21 +26,21 @@ mixin highlight-card(p)
 			data-pledged-string=symbol + numeral(p.pledged).format('0,0')
 			)
 			div.backers.ib
-				div.graph
-				div.caption Backers
+				div.backers-graph
+				div.backers-caption Backers
 			div.pledges.ib
-				div.graph
-				div.caption= symbol + numeral(p.goal).format('0,0') + ' goal'
-			div.days-remaining.ib
-				div.graph
-				div.caption= ( (daysLeft > 0) ? daysLeft : 0 ) + ' days to go'
-			div.back-project.ib
-				div.graph
+				div.pledges-graph
+				div.pledges-caption= symbol + numeral(p.goal).format('0,0') + ' goal'
+			div.days.ib
+				div.days-graph
+				div.days-caption= ( (daysLeft > 0) ? daysLeft : 0 ) + ' days to go'
+			div.back.ib
+				div.back-graph
 					div.text $
 				if (daysLeft > 0)
-					div.caption: a(href=p.uri)= backCaption
+					div.back-caption: a(href=p.uri)= backCaption
 				else
-					div.caption= backCaption
+					div.back-caption= backCaption
 
 
 

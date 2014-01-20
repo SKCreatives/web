@@ -13,10 +13,10 @@ $(function($) {
 
     // console.log(data.pledged, data.goal)
     
-    var $backers = $el.find('.backers .graph');
-    var $days = $el.find('.days-remaining .graph');
-    var $pledges = $el.find('.pledges .graph');
-    var $back = $el.find('.back-project .graph');
+    var $backers = $el.find('.backers-graph');
+    var $days = $el.find('.days-graph');
+    var $pledges = $el.find('.pledges-graph');
+    var $back = $el.find('.back-graph');
 
     var daysTotal = moment(data.endTime).diff(moment(data.launchTime), 'days');
     var daysLeft = moment(data.endTime).diff(now, 'days');
