@@ -31,7 +31,8 @@ html
 		link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
 
 		include includes/liveReload.jade
-		script(src='/js/vendor/html5shiv-printshiv.js' +cachebust)
+		script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv-printshiv.min.js')
+		script window.html5 || document.write('<script src="/js/vendor/tml5shiv-printshiv.min.js"><\/script>')
 		block headScripts
 
 	body
@@ -49,8 +50,6 @@ html
 			include includes/analytics.jade
 			script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js')
 			script window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.2.min.js"><\/script>')
-			//- script(src='//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.2/numeral.min.js')
-			//- script window.jQuery || document.write('<script src="/js/vendor/numeral.min.js"><\/script>')
 			script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js')
 			script window.Raphael || document.write('<script src="/js/vendor/raphael.js"><\/script>')
 			script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.0/moment.min.js')
