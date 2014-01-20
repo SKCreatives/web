@@ -2,6 +2,7 @@
 
 (function() {
   var SK = window.SK = window.SK || {};
+  var raphael = Raphael;
 
   SK.DaysGraph = function(el, r, duration, w, h) {
     this.r = r || 100;
@@ -10,7 +11,7 @@
     this.h = h || r * 2;    
     this.cx = w/2;
     this.cy = h/2;
-    this.paper = Raphael(el, w, h);
+    this.paper = raphael(el, w, h);
 
     var c = this.paper.circle(this.cx, this.cy, this.r);
     c.attr({
@@ -49,18 +50,14 @@
 
 
   SK.BackersGraph = function(el) {
-    this.$el = (el instanceof jQuery) ? el : $(el);
-    this.$ghost = $('<div class="text" style="position: absolute; visibility: hidden; height: auto; width: auto;">');
+    this.$el = $(el);
+    this.$ghost = $('<div class="ghost-text">');
     this.$text = $('<div class="text">');
-    var pos = this.$el.css('position');
-    if (pos !== 'absolute' || pos !== 'relative') {
-      this.$el.css('position', 'relative');
-    }
-    this.$el.css({ 'line-height': this.$el.height() + 'px', 'text-align': 'center' });
-    this.$text.css({ 'vertical-align': 'top', 'display':'inline-block' });
+    
+    this.$el.css({ 'line-height': this.$el.height() + 'px'});
     this.$el.append(this.$ghost);
     this.$el.append(this.$text);
-    this.update('0');
+    this.update(0);
   };
 
   SK.BackersGraph.prototype.update = function(value) {
@@ -90,18 +87,11 @@
 
   SK.PledgesGraph = function(el, total) {
     if (total === void 0) console.error('Invalid total for PledgesGraph(el, total)');
-    this.$el = (el instanceof jQuery) ? el : $(el);
+    this.$el = $(el);
     this.total = total;
-
-    var pos = this.$el.css('position');
-    if (pos !== 'absolute' || pos !== 'relative') {
-      this.$el.css('position', 'relative');
-    }
+    this.$gauge = $('<div class="gauge">');
+    this.$text = $('<div class="text">');
     
-    this.$gauge = $('<div class="gauge" style="position: absolute; bottom: 0; width: 100%">');
-    this.$text = $('<div class="text" style="width:100%; text-align: center;">');
-    
-    this.$text.css({ 'vertical-align': 'top', 'display':'inline-block' });
     this.$gauge.append(this.$text);
     this.$el.append(this.$gauge);
   };
@@ -112,26 +102,20 @@
 
     var totalHeight = this.$el.height();
     var gaugeHeight = totalHeight * value / this.total;
-
-    if (gaugeHeight > totalHeight) { gaugeHeight = totalHeight }
+    var textHeight = this.$text.height();
 
     this.$text.text(valueString + ' pledged');
-    var textHeight = this.$text.height();
+    this.$text.removeClass('inverted');
+
     if (gaugeHeight < textHeight) {
-      this.$text.css({
-        'position': 'absolute',
-        'top': -textHeight -20,
-        'color': 'white',
-        'text-shadow': '0px 0px 2px rgb(0,30,97), 0px 0px 10px rgb(0,77,251)'
-      });
-    } else {
-      this.$text.css({
-        'position': 'relative',
-        'top': 'auto',
-        'color': 'rgb(0,77,251)',
-        'text-shadow': 'none'
-      });
+      this.text.addClass('inverted');
+      this.$text.css({'top': -textHeight -20});
     }
+
+    if (gaugeHeight > totalHeight) {
+      gaugeHeight = totalHeight;
+    }
+
     this.$gauge.height(gaugeHeight);
     this.$gauge.css({ 'line-height': gaugeHeight + 'px' });
   };

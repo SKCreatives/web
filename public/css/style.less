@@ -133,6 +133,8 @@ a {
 }
 
 
+
+
 .stats {
 	font-size: @smallFont;
 	padding-top: 20px;
@@ -146,59 +148,107 @@ a {
 		padding-left: 20px;
 		padding-right: 20px;
 	}
+}
 
-	.backers-graph,
-	.pledges-graph,
-	.days-graph,
-	.back-graph {
-		margin-bottom: 20px;
-		width:  200px;
-		height: 200px;
+
+
+
+
+
+.backers-graph,
+.pledges-graph,
+.days-graph,
+.back-graph {
+	margin-bottom: 20px;
+	width:  200px;
+	height: 200px;
+}
+
+.backers-caption,
+.pledges-caption,
+.days-caption,
+.back-caption {
+	width: 100%;
+	text-align: center;
+}
+
+.backers-graph {
+	position: relative;
+	text-align: center;
+	color: white;
+	border-width: 3px;
+	border-style: solid;
+	border-color: white;
+	border-radius: 20px;
+
+	.text,
+	.ghost-text {
+		margin-left: 20px;
+		margin-right: 20px;
 	}
 
-	.backers-caption,
-	.pledges-caption,
-	.days-caption,
-	.back-caption {
+	.text {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.ghost-text {
+		position: absolute;
+		visibility: hidden;
+		height: auto;
+		width: auto;
+	}
+}
+
+.pledges-graph {
+	position: relative;
+	border-width: 3px;
+	border-style: solid;
+	border-color: white;
+	background-image: url(/img/stats-dots-white.png);
+
+	.gauge {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		background-color: white;
+	}
+
+	.text {
+		position: relative;
+		top: auto;
+		color: rgb(0,77,251);
+		display: inline-block;
 		width: 100%;
 		text-align: center;
-	}
+		vertical-align: top;
+		text-shadow: none;
 
-	.backers-graph {
-		color: white;
-		border-width: 3px;
-		border-style: solid;
-		border-color: white;
-		border-radius: 20px;
-		.text {
-			margin-left: 20px;
-			margin-right: 20px;
-		}
-	}
-
-	.pledges-graph {
-		border-width: 3px;
-		border-style: solid;
-		border-color: white;
-		background-image: url(/img/stats-dots-white.png);
-		.gauge {
-			background-color: white;
-		}
-	}
-
-	.back-graph {
-		border-width: 3px;
-		border-style: solid;
-		border-color: white;
-		line-height: 190px;
-		.text {
-			display: inline-block;
-			font-size: 68px;
-			width: 100%;
-			text-align: center;
+		.inverted {
+			position: absolute;
+			color: white;
+			text-shadow: 0px 0px 2px rgb(0,30,97), 0px 0px 10px rgb(0,77,251);
 		}
 	}
 }
+
+.back-graph {
+	border-width: 3px;
+	border-style: solid;
+	border-color: white;
+	line-height: 190px;
+	.text {
+		display: inline-block;
+		font-size: 68px;
+		width: 100%;
+		text-align: center;
+	}
+}
+
+
+
+
+
 
 .section-header {
 	text-align: center;
