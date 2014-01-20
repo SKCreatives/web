@@ -5,8 +5,10 @@ extends layout
 //- ================
 mixin highlight-card(p)
 	- var now = moment();
-	- var symbol = {GBP:'£', EUR:'€', USD:'$'}[p.currency];
-	- var daysLeft = moment(p.endTime).diff(now, 'days');
+	- var endTime = moment(p.endTime);
+	- var launchTime = moment(p.launchTime);
+	- var symbol = {GBP:'£', EUR:'€', USD:'$', CAD:'CAD$'}[p.currency];
+	- var daysLeft = endTime.diff(now, 'days');
 	- var backCaption = (daysLeft > 0) ? 'Back this project' : (p.pledged >= p.goal) ? 'Successfully funded' : 'Ended';
 	div.highlight.card
 		div.highlight-img.img
@@ -15,12 +17,13 @@ mixin highlight-card(p)
 		div.title
 			h3= p.title
 		div.stats.ibc(
-			data-endTime=p.endTime,
-			data-launchTime=p.launchTime,
-			data-backersCount=p.backersCount
+			data-end-time=endTime.toISOString(),
+			data-launch-time=launchTime.toISOString(),
+			data-backers-count=p.backersCount
 			data-currency=p.currency,
 			data-goal=p.goal,
 			data-pledged=p.pledged,
+			data-pledged-string=symbol + numeral(p.pledged).format('0,0')
 			)
 			div.backers.ib
 				div.graph
