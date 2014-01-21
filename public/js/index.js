@@ -178,7 +178,18 @@
     $('#section-archive').on('click', '.archive-header-row', function() {
       var $el = $(this);
       var $card = $el.parentsUntil('#section-archive').filter('.card');
-      $card.toggleClass('active');
+      if ($card.hasClass('active')) {
+        $card.removeClass('active');
+      } else {
+        $card.addClass('active show-children');
+      }
+    });
+
+    $('#section-archive').on('transitionend -webkit-transitionend -moz-transitionend -ms-transitionend', '.card', function() {
+      var $el = $(this);
+      if (!$el.hasClass('active')) {
+        $el.removeClass('show-children');
+      }
     });
 
 

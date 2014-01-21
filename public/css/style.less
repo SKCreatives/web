@@ -219,6 +219,13 @@ a {
 		display: none;
 	}
 
+	&.show-children .archive-media,
+	&.show-children .poster-img,
+	&.show-children .stats,
+	&.show-children .archive-footer {
+		display: block;
+	}
+
 	iframe {
 		display: block;
 	}
@@ -292,14 +299,7 @@ a {
 	-moz-transition: max-height 1000ms;
 	-ms-transition: max-height 1000ms;
 	transition: max-height 1000ms;
-	max-height: 5000px;
-
-	.archive-media,
-	.poster-img,
-	.stats,
-	.archive-footer {
-		display: block;
-	}
+	max-height: 1200px;
 }
 
 
