@@ -1,53 +1,82 @@
 extends layout
 
 
-//- Highlights Mixin
-//- ================
-mixin campaign-card(p, archive)
+
+
+mixin card-stats-mixin(p)
 	- var now = moment();
 	- var endTime = moment(p.endTime);
 	- var launchTime = moment(p.launchTime);
 	- var symbol = {GBP:'£', EUR:'€', USD:'$', CAD:'CAD$'}[p.currency];
 	- var daysLeft = endTime.diff(now, 'days');
 	- var backCaption = (daysLeft > 0) ? 'Back this project' : (p.pledged >= p.goal) ? 'Successfully funded' : 'Ended';
-	div.card(class=(archive) ? 'archive' : 'highlight')
+
+	div.stats.ibc(
+		data-end-time=endTime.toISOString(),
+		data-launch-time=launchTime.toISOString(),
+		data-backers-count=p.backersCount
+		data-currency=p.currency,
+		data-goal=p.goal,
+		data-pledged=p.pledged,
+		data-pledged-string=symbol + numeral(p.pledged).format('0,0')
+		)
+		div.backers.ib
+			div.backers-graph
+			div.backers-caption Backers
+		div.pledges.ib
+			div.pledges-graph
+			div.pledges-caption= symbol + numeral(p.goal).format('0,0') + ' goal'
+		div.days.ib
+			div.days-graph
+			div.days-caption= ( (daysLeft > 0) ? daysLeft : 0 ) + ' days to go'
+		div.back.ib
+			div.back-graph
+				div.text $
+			if (daysLeft > 0)
+				div.back-caption: a(href=p.uri)= backCaption
+			else
+				div.back-caption= backCaption
+
+
+
+
+mixin highligh-card-mixin(p)
+	- var now = moment();
+	- var endTime = moment(p.endTime);
+	- var daysLeft = endTime.diff(now, 'days');
+
+	div.card.highlight
 		div.poster-img.img
 			if (daysLeft)
 				a(href=p.uri)
 					img(src=p.poster || '/img/bg.png')
 			else
 				img(src=p.poster || '/img/bg.png')
-
-		
 		div.title
 			h3= p.title
-		div.stats.ibc(
-			data-end-time=endTime.toISOString(),
-			data-launch-time=launchTime.toISOString(),
-			data-backers-count=p.backersCount
-			data-currency=p.currency,
-			data-goal=p.goal,
-			data-pledged=p.pledged,
-			data-pledged-string=symbol + numeral(p.pledged).format('0,0')
-			)
-			div.backers.ib
-				div.backers-graph
-				div.backers-caption Backers
-			div.pledges.ib
-				div.pledges-graph
-				div.pledges-caption= symbol + numeral(p.goal).format('0,0') + ' goal'
-			div.days.ib
-				div.days-graph
-				div.days-caption= ( (daysLeft > 0) ? daysLeft : 0 ) + ' days to go'
-			div.back.ib
-				div.back-graph
-					div.text $
-				if (daysLeft > 0)
-					div.back-caption: a(href=p.uri)= backCaption
-				else
-					div.back-caption= backCaption
-		if (archive)
-			div.summary
+		+card-stats-mixin(p)
+
+
+
+
+mixin archive-card-mixin(p)
+	- var now = moment();
+	- var endTime = moment(p.endTime);
+	- var daysLeft = endTime.diff(now, 'days');
+
+	div.card.archive
+		div.archive-row-header
+			h2= p.title
+		div.archive-media
+			if (p.video)
+				iframe(src=p.video.iframe, width=790, height=592)
+			else
+				div.poster-img.img
+					img(src=p.poster || '/img/bg.png')
+
+		+card-stats-mixin(p)
+
+
 
 
 block content
@@ -66,7 +95,7 @@ block content
 		div.slides
 			each project in projects
 				if project.highlight
-					+campaign-card(project, false)
+					+highligh-card-mixin(project)
 
 	if (documents['apply'])
 		section#section-apply
@@ -79,7 +108,7 @@ block content
 	section#section-archive
 		h2.section-header Archive
 		each project in projects
-			+campaign-card(project, true)
+			+archive-card-mixin(project)
 
 	if (documents['about'])
 		section#section-about
