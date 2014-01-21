@@ -174,6 +174,14 @@
     });
 
 
+    // Delegate click events on cards archive
+    $('#section-archive').on('click', '.archive-header-row', function() {
+      var $el = $(this);
+      var $card = $el.parentsUntil('#section-archive').filter('.card');
+      $card.toggleClass('active');
+    });
+
+
     // Send form
     $('#subForm').submit(function (e) {
       e.preventDefault();

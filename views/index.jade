@@ -62,8 +62,9 @@ mixin highligh-card-mixin(p)
 mixin archive-card-mixin(p)
 	div.card.archive
 		div.archive-header-row
-			h3= p.title
+			h3.title= p.title
 			p.campaign-category=p.category
+			p.campaign-launch-date=moment(p.endTime).format('MM. DD. YY')
 		div.archive-media
 			if (p.video)
 				iframe(src=p.video.iframe, width=790, height=592, frameborder=0, scrolling='no')
@@ -87,6 +88,8 @@ block content
 				li.nav-menu-item: a(href='#section-archive', title='Archive of supported projects') Archive
 
 
+
+
 	section#section-highlights
 		h2.section-header.hidden Highlights
 		div.slides
@@ -94,22 +97,36 @@ block content
 				if project.highlight
 					+highligh-card-mixin(project)
 
+
+
+
 	if (documents['apply'])
 		section#section-apply
 			div.markdown-container!= marked(documents['apply'])
 
+
+
+
 	if (documents['case study'])
 		section#section-case-studies
 			div.markdown-container!= marked(documents['case study'])
+
+
+
+
+	if (documents['about'])
+		section#section-about
+			div.markdown-container!= marked(documents['about'])
+
+
+
 
 	section#section-archive
 		h2.section-header Archive
 		each project in projects
 			+archive-card-mixin(project)
 
-	if (documents['about'])
-		section#section-about
-			div.markdown-container!= marked(documents['about'])
+
 
 
 	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")

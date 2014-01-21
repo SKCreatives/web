@@ -1,6 +1,7 @@
 @black: rgb(53,51,51);
 @grey: rgb(128, 128, 128);
 @blue: rgb(0,77,251);
+@white: rgb(255,255,255);
 @lineHeight: 30px;
 @fontFamily: 'Helvetica', 'Arial','Nimbus Sans L','AvenirNextCondensed-Medium',sans-serif;
 @fontSize: 20px;
@@ -195,6 +196,65 @@ a {
 			position: absolute;
 		}
 	}
+}
+
+
+
+
+// Archive cards
+.card.archive {
+	border-bottom: 3px solid @white;
+	max-height: 80px;
+	overflow: hidden;
+	-webkit-transition: max-height 1000ms;
+	-moz-transition: max-height 1000ms;
+	-ms-transition: max-height 1000ms;
+	transition: max-height 1000ms;
+
+	.title {
+		border-bottom: none 0;
+		text-align: left;
+	}
+
+	.archive-header-row {
+		height: 80px;
+		border-bottom: 3px solid @white;
+		width: 100%;
+		padding-left: 20px;
+		font-size: 16px;
+		cursor: pointer;
+		
+		// center text vertically
+		line-height: 60px;
+
+		&:hover {
+			background-color: @black;
+		}
+	}
+
+	.title,
+	.campaign-category,
+	.campaign-launch-date {
+		display: inline-block;
+	}
+
+	.title {
+		font-family: monospace;
+		width: 400px;
+	}
+
+	.campaign-category {
+		font-family: monospace;
+		width: 240px;
+	}
+}
+
+.card.archive.active {
+	-webkit-transition: max-height 1000ms;
+	-moz-transition: max-height 1000ms;
+	-ms-transition: max-height 1000ms;
+	transition: max-height 1000ms;
+	max-height: 5000px;
 }
 
 
