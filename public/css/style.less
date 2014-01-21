@@ -1,5 +1,6 @@
 @black: rgb(53,51,51);
 @grey: rgb(128, 128, 128);
+@blue: rgb(0,77,251);
 @lineHeight: 30px;
 @fontFamily: 'Helvetica', 'Arial','Nimbus Sans L','AvenirNextCondensed-Medium',sans-serif;
 @fontSize: 20px;
@@ -36,12 +37,13 @@ body {
 }
 
 
-#header,
-#highlights,
-#apply,
-#case-study,
-#archive,
-#footer {
+#section-header,
+#section-highlights,
+#section-apply,
+#section-about,
+#section-case-study,
+#section-archive,
+#section-footer {
 	width: 830px;
 	margin-left: auto;
 	margin-right: auto;
@@ -67,7 +69,7 @@ a {
 	min-width: 830px;
 }
 
-#index {
+#section-index {
 	position: absolute;
 	width: 100%;
 	padding-bottom: 0;
@@ -91,6 +93,7 @@ a {
 	line-height: 70px;
 	overflow: hidden;
 
+
 	a {
 		color: white;
 		display: block;
@@ -98,6 +101,10 @@ a {
 		border-radius: 10px;
 		width: 20px;
 		height: 20px;
+		border-bottom-width: 0;
+		&.active {
+			background-color: @blue;
+		}
 	}
 }
 
@@ -149,7 +156,7 @@ a {
 	margin-right: auto;
 	width: 790px;
 	color: white;
-	background-color: rgb(0,77,251);
+	background-color: @blue;
 
 	a {
 		color: white;
@@ -269,7 +276,7 @@ a {
 	.text {
 		position: relative;
 		top: auto;
-		color: rgb(0,77,251);
+		color: @blue;
 		display: inline-block;
 		width: 100%;
 		text-align: center;
@@ -279,7 +286,7 @@ a {
 		.inverted {
 			position: absolute;
 			color: white;
-			text-shadow: 0px 0px 2px rgb(0,30,97), 0px 0px 10px rgb(0,77,251);
+			text-shadow: 0px 0px 2px rgb(0,30,97), 0px 0px 10px @blue;
 		}
 	}
 }
@@ -299,10 +306,9 @@ a {
 
 
 
-
-
-
-.section-header {
+.section-header,
+.text-container h1,
+.text-container h2, {
 	text-align: center;
 	// font-size: 30px;
 	font-weight: 800;
@@ -316,8 +322,11 @@ a {
 
 .text-container {
 	width: 790px;
-	padding-left: 10px;
-	padding-right: 10px;
+	
+	h3, h4, h5, h6, p, ul, ol, blockquote, pre {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 }
 
 

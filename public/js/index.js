@@ -111,7 +111,7 @@
 
 
   $(function($) {
-    var $highlights = $('#highlights');
+    var $highlights = $('#section-highlights');
     var $card = $($highlights.find('.card')[0]);
     var slideWidth = $card.width();
     var slideHeight = $card.height();

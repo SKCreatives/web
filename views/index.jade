@@ -50,27 +50,38 @@ mixin highlight-card(p)
 
 
 block content
-	section#index
+	section#section-index
 		div.nav-menu
 			ul
-				li.nav-menu-item: a(href='#highlights', title='Project highlights') Highlights
-				li.nav-menu-item: a(href='#about', title='About Sidekick') About
-				li.nav-menu-item: a(href='#apply', title='Project Applications') Apply
-				li.nav-menu-item: a(href='#case-studies', title='Case Studies') Case Studies
-				li.nav-menu-item: a(href='#archive', title='Archive of supported projects') Archive
+				li.nav-menu-item: a(href='#section-highlights', title='Project highlights') Highlights
+				li.nav-menu-item: a(href='#section-about', title='About Sidekick') About
+				li.nav-menu-item: a(href='#section-apply', title='Project Applications') Apply
+				li.nav-menu-item: a(href='#section-case-studies', title='Case Studies') Case Studies
+				li.nav-menu-item: a(href='#section-archive', title='Archive of supported projects') Archive
 
 
-	section#highlights
+	section#section-highlights
 		h2.section-header.hidden Highlights
 		div.slides
 			each project in projects
 				if project.highlight
 					+highlight-card(project)
 
+	if (documents['apply'])
+		section#section-apply
+			div.text-container!= marked(documents['apply'])
 
-	section#apply
-		h2.section-header Apply
-		div.text-container!= marked(documents.apply)
+	if (documents['case-study'])
+		section#section-case-studies
+			div.text-container!= marked(documents['case-study'])
+
+	section#section-archive
+		h2.section-header Archive
+
+	if (documents['about'])
+		section#section-about
+			div.text-container!= marked(documents['about'])
+
 
 	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
 		p(style='white-space:pre;')
