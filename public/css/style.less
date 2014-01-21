@@ -76,10 +76,11 @@ a {
 
 #section-header {
 	padding-top: @verticalMargin;
+	padding-bottom: 0;
 }
 
 #section-highlights {
-	margin-top: 100px;
+	margin-top: 70px;
 }
 
 
@@ -120,11 +121,11 @@ a {
 
 
 .nav-menu {
-	height: 100px;
+	height: 70px;
 	width: 790px;
 	margin-left: auto;
 	margin-right: auto;
-	padding-top: 40px;
+	padding-top: 20px;
 	text-align: center;
 	border-bottom-style: solid;
 	border-bottom-color: black;
@@ -211,6 +212,10 @@ a {
 	-ms-transition: max-height 1000ms;
 	transition: max-height 1000ms;
 
+	iframe {
+		display: block;
+	}
+
 	.title {
 		border-bottom: none 0;
 		text-align: left;
@@ -247,8 +252,31 @@ a {
 		font-family: monospace;
 		width: 240px;
 	}
+
+	.archive-footer {
+		font-size: 16px;
+		border-top: 3px solid @white;
+		line-height: 20px;
+		padding: 30px;
+	}
+
+	.campaign-meta {
+		width: 380px;
+	}
+
+	.campaign-extras {}
+	.card-close-button {}
+
+	dd {
+		margin-bottom: @lineHeight / 2;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 }
 
+
+// Accordion animation
 .card.archive.active {
 	-webkit-transition: max-height 1000ms;
 	-moz-transition: max-height 1000ms;
@@ -256,6 +284,10 @@ a {
 	transition: max-height 1000ms;
 	max-height: 5000px;
 }
+
+
+
+
 
 
 

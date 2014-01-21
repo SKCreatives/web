@@ -60,6 +60,7 @@ mixin highligh-card-mixin(p)
 
 
 mixin archive-card-mixin(p)
+	- var re = new RegExp('^https?://');
 	div.card.archive
 		div.archive-header-row
 			h3.title= p.title
@@ -74,6 +75,32 @@ mixin archive-card-mixin(p)
 
 		+card-stats-mixin(p)
 
+		div.archive-footer
+			dl.campaign-meta
+				dt Project by
+				dd= p.creatorName
+				
+				dt Location
+				dd= p.location
+
+				if (p.website || p['website-1'])
+					dt Website
+					dd: ul
+						- var originalUrl = p.website || p['website-1'];
+						- var http = originalUrl.match(re);
+						- var url = http ? originalUrl.replace(re, '') : originalUrl;
+						li: a(href= http ? originalUrl : 'http://'+url)= url
+						if (p['website-1'])
+							- var i = 2;
+							each prop, key in p
+								if (key === 'website-'+i)
+									- i++;
+									- var http = prop.match(re);
+									- var url = http ? prop.replace(re, '') : prop;
+									li: a(href= http ? prop : 'http://'+url)= url
+
+			div.campaign-extras
+			div.card-close-button
 
 
 
