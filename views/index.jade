@@ -61,11 +61,12 @@ mixin highligh-card-mixin(p)
 
 mixin archive-card-mixin(p)
 	div.card.archive
-		div.archive-row-header
-			h2= p.title
+		div.archive-header-row
+			h3= p.title
+			p.campaign-category=p.category
 		div.archive-media
 			if (p.video)
-				iframe(src=p.video.iframe, width=790, height=592)
+				iframe(src=p.video.iframe, width=790, height=592, frameborder=0, scrolling='no')
 			else
 				div.poster-img.img
 					img(src=p.poster || '/img/bg.png')
