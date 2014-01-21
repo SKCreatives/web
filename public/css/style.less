@@ -4,7 +4,7 @@
 @white: rgb(255,255,255);
 @lineHeight: 30px;
 @fontFamily: 'Helvetica', 'Arial','Nimbus Sans L','AvenirNextCondensed-Medium',sans-serif;
-@fontSize: 20px;
+@fontSize: 24px;
 @smallFont: 14px;
 @verticalMargin: 40px;
 
@@ -212,6 +212,13 @@ a {
 	-ms-transition: max-height 1000ms;
 	transition: max-height 1000ms;
 
+	.archive-media,
+	.poster-img,
+	.stats,
+	.archive-footer {
+		display: none;
+	}
+
 	iframe {
 		display: block;
 	}
@@ -235,6 +242,9 @@ a {
 		&:hover {
 			background-color: @black;
 		}
+	}
+
+	.archive-media {
 	}
 
 	.title,
@@ -283,6 +293,13 @@ a {
 	-ms-transition: max-height 1000ms;
 	transition: max-height 1000ms;
 	max-height: 5000px;
+
+	.archive-media,
+	.poster-img,
+	.stats,
+	.archive-footer {
+		display: block;
+	}
 }
 
 
@@ -448,7 +465,7 @@ a {
 	// font-size: 30px;
 	font-weight: 800;
 	padding-top: 20px;
-	padding-bottom: 10px;
+	margin-bottom: 20px;
 	border-top-width: 3px;
 	border-top-style: solid;
 	border-top-color: black;
