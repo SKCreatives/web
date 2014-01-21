@@ -107,7 +107,22 @@
   }
 
 
+  function updateGraph(obj) {
+    var $el = obj.el;      
+    var data = $el.data();
 
+    var daysTotal = moment(data.endTime).diff(moment(data.launchTime), 'days');
+    var daysLeft = moment(data.endTime).diff(now, 'days');
+        daysLeft = daysLeft > 0 ? daysLeft : 0;
+    var daysElapsed = daysTotal - daysLeft;
+
+    obj.backersGraph.update(data.backersCount);
+    obj.daysGraph.update(daysElapsed);
+    obj.pledgesGraph.update(data.pledged, data.pledgedString);
+  }
+
+
+  var graphs = [];
 
 
   $(function($) {
@@ -131,7 +146,7 @@
 
 
     // Update graphs
-    $('.stats').each(function(i, el) {
+    $('.stats').each(function generateGraphs(i, el) {
       var $el = $(el);      
       var data = $el.data();      
       var $backers = $el.find('.backers-graph');
@@ -151,6 +166,13 @@
       backersGraph.update(data.backersCount);
       daysGraph.update(daysElapsed);
       pledgesGraph.update(data.pledged, data.pledgedString);
+
+      graphs.push({
+        el: $el,
+        backersGraph: backersGraph,
+        daysGraph: daysGraph,
+        pledgesGraph: pledgesGraph
+      });
     });
 
 
@@ -181,6 +203,12 @@
       if ($card.hasClass('active')) {
         $card.removeClass('active');
       } else {
+        setTimeout(function() {
+          for (var i = 0, data; i < graphs.length; i++) {
+            data = graphs[i];
+            updateGraph(data);
+          }
+        }, 200);
         $card.addClass('active show-children');
       }
     });
