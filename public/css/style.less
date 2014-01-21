@@ -36,15 +36,20 @@ body {
 }
 
 
-header,
-section,
-footer {
-	width: 960px;
+#header,
+#highlights,
+#apply,
+#case-study,
+#archive,
+#footer {
+	width: 830px;
 	margin-left: auto;
 	margin-right: auto;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
-header {
+#header {
 	padding-top: @verticalMargin;
 }
 
@@ -59,6 +64,7 @@ a {
 
 #main {
 	position: relative;
+	min-width: 830px;
 }
 
 #index {
@@ -74,23 +80,46 @@ a {
 	margin-top: 100px;
 }
 
+.slidesjs-pagination {
+	text-align: center;
+	padding-top: 20px;
+}
+
+.slidesjs-pagination-item {
+	display: inline-block;
+	margin-left: 10px;
+	line-height: 70px;
+	overflow: hidden;
+
+	a {
+		color: white;
+		display: block;
+		background-color: @black;
+		border-radius: 10px;
+		width: 20px;
+		height: 20px;
+	}
+}
+
 
 .nav-menu {
 	height: 100px;
-	width: 960px;
+	width: 790px;
 	margin-left: auto;
 	margin-right: auto;
 	padding-top: 40px;
 	text-align: center;
 	border-bottom-style: solid;
 	border-bottom-color: black;
-	border-bottom-width: 2px;
+	border-bottom-width: 3px;
 }
 
 .nav-menu-item {
 	display: inline;
 	margin-left: 10px;
 	margin-right: 10px;
+	font-size: 16px;
+	letter-spacing: 1px;
 	a {
 		border-bottom: none;
 	}
@@ -101,8 +130,8 @@ a {
 }
 
 .logo {
-	width: 758px/2;
-	height: 230px/2;
+	width: 640px/2;
+	height: 195px/2;
 	margin-left: auto;
 	margin-right: auto;
 	background-repeat: no-repeat;
@@ -118,9 +147,15 @@ a {
 .card {
 	margin-left: auto;
 	margin-right: auto;
-	width: 960px;
+	width: 790px;
 	color: white;
 	background-color: rgb(0,77,251);
+
+	a {
+		color: white;
+		padding-bottom: 0;
+		border-bottom-width: 0;
+	}
 
 	.title {
 		text-align: center;
@@ -129,6 +164,20 @@ a {
 		border-bottom-width: 2px;
 		border-bottom-style: solid;
 		border-bottom-color: white;
+	}
+
+	.highlight-img {
+		position: relative;
+		height: 395px;
+		overflow: hidden;
+
+		a {
+			display: block; 
+		}
+
+		img {
+			position: absolute;
+		}
 	}
 }
 
@@ -145,8 +194,7 @@ a {
 	.pledges,
 	.days,
 	.back {
-		padding-left: 20px;
-		padding-right: 20px;
+		padding-left: 30px;
 	}
 }
 
@@ -160,8 +208,8 @@ a {
 .days-graph,
 .back-graph {
 	margin-bottom: 20px;
-	width:  200px;
-	height: 200px;
+	width:  160px;
+	height: 160px;
 }
 
 .backers-caption,
@@ -170,6 +218,8 @@ a {
 .back-caption {
 	width: 100%;
 	text-align: center;
+	font-size: 16px;
+	letter-spacing: 1px;
 }
 
 .backers-graph {
@@ -206,6 +256,8 @@ a {
 	border-style: solid;
 	border-color: white;
 	background-image: url(/img/stats-dots-white.png);
+	font-size: 16px;
+	letter-spacing: 1px;
 
 	.gauge {
 		position: absolute;
@@ -236,7 +288,7 @@ a {
 	border-width: 3px;
 	border-style: solid;
 	border-color: white;
-	line-height: 190px;
+	line-height: 160px;
 	.text {
 		display: inline-block;
 		font-size: 68px;
@@ -262,10 +314,10 @@ a {
 	border-top-color: black;
 }
 
-.paragraph-wide {
-	width: 960px;
-	padding-left: 60px;
-	padding-right: 60px;
+.text-container {
+	width: 790px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 

@@ -12,7 +12,12 @@ mixin highlight-card(p)
 	- var backCaption = (daysLeft > 0) ? 'Back this project' : (p.pledged >= p.goal) ? 'Successfully funded' : 'Ended';
 	div.highlight.card
 		div.highlight-img.img
-			img(src=p.poster || '/img/bg.png')
+			if (daysLeft)
+				a(href=p.uri)
+					img(src=p.poster || '/img/bg.png')
+			else
+				img(src=p.poster || '/img/bg.png')
+
 		
 		div.title
 			h3= p.title
@@ -56,15 +61,16 @@ block content
 
 
 	section#highlights
-		h2.section-title.hidden Highlights
-		each project in projects
-			if project.highlight
-				+highlight-card(project)
+		h2.section-header.hidden Highlights
+		div.slides
+			each project in projects
+				if project.highlight
+					+highlight-card(project)
 
 
 	section#apply
 		h2.section-header Apply
-		div.paragraph.paragraph-wide!= marked(documents.apply)
+		div.text-container!= marked(documents.apply)
 
 	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
 		p(style='white-space:pre;')
