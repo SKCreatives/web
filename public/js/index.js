@@ -111,13 +111,14 @@
 
 
   $(function($) {
+    var $cards = $('.card');
     var $highlights = $('#section-highlights');
     var $card = $($highlights.find('.card')[0]);
     var slideWidth = $card.width();
     var slideHeight = $card.height();
 
     // Set up image dimensions
-    $highlights.find('.highlight-img').imagesLoaded()
+    $cards.find('.poster-img').imagesLoaded()
       .always( function( instance ) {})
       .done( function( instance ) {})
       .fail( function() {})

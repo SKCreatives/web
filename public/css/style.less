@@ -50,6 +50,7 @@ body {
 	margin-right: auto;
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-bottom: 20px;
 }
 
 #section-header {
@@ -174,7 +175,7 @@ a {
 		border-bottom-color: white;
 	}
 
-	.highlight-img {
+	.poster-img {
 		position: relative;
 		height: 395px;
 		overflow: hidden;
@@ -306,14 +307,47 @@ a {
 }
 
 
+.markdown-container {
+	width: 790px;
+	
+	address,
+	article,
+	aside,
+	audio,
+	blockquote,
+	canvas,
+	dd,
+	div,
+	dl,
+	fieldset,
+	figcaption,
+	figure,
+	footer,
+	form,
+	h1, h2, h3, h4, h5, h6,
+	header,
+	hgroup,
+	hr,
+	noscript,
+	ol,
+	output,
+	p,
+	pre,
+	section,
+	table,
+	tfoot,
+	ul,
+	video {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
 
 .section-header,
-.text-container h1,
-.text-container h2, {
+.markdown-container h1 {
 	text-align: center;
 	// font-size: 30px;
 	font-weight: 800;
-	margin-top: 30px;
 	padding-top: 20px;
 	padding-bottom: 10px;
 	border-top-width: 3px;
@@ -321,20 +355,58 @@ a {
 	border-top-color: black;
 }
 
-.text-container h2, {
-	font-weight: 400;
-	border-top-width: 0;
-	padding-top: 0;
+.section-header {
+	padding-top: 20px;
 }
 
-.text-container {
-	width: 790px;
+.markdown-container h2, {
+	text-align: center;
+	font-weight: 400;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
 
-	h3, h4, h5, h6, p, ul, ol, blockquote, pre {
+.markdown-container {
+	pre, blockquote, ul, ol, p {
+		margin-top: @lineHeight /2;
+		margin-bottom: @lineHeight /2;
+	}
+
+	pre, code {
+		font-family: monospace;
+		letter-spacing: initial;
+	}
+
+	blockquote, pre, ul, ol {
 		padding-left: 10px;
-		padding-right: 10px;
+		margin-left: 13px;
+	}
+
+	blockquote {
+		border-left-color: @black;
+		border-left-style: solid;
+		border-left-width: 3px;
+	}
+
+	ul, ol {
+		list-style-position: inside;
+	}
+
+	ul {
+		list-style-type: disc;
+	}
+
+	ol {
+		list-style-type: decimal;
+	}
+
+	li {
+		display: list-item;
 	}
 }
+
+
+
 
 
 @media

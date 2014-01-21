@@ -3,15 +3,15 @@ extends layout
 
 //- Highlights Mixin
 //- ================
-mixin highlight-card(p)
+mixin campaign-card(p, archive)
 	- var now = moment();
 	- var endTime = moment(p.endTime);
 	- var launchTime = moment(p.launchTime);
 	- var symbol = {GBP:'£', EUR:'€', USD:'$', CAD:'CAD$'}[p.currency];
 	- var daysLeft = endTime.diff(now, 'days');
 	- var backCaption = (daysLeft > 0) ? 'Back this project' : (p.pledged >= p.goal) ? 'Successfully funded' : 'Ended';
-	div.highlight.card
-		div.highlight-img.img
+	div.card(class=(archive) ? 'archive' : 'highlight')
+		div.poster-img.img
 			if (daysLeft)
 				a(href=p.uri)
 					img(src=p.poster || '/img/bg.png')
@@ -46,7 +46,8 @@ mixin highlight-card(p)
 					div.back-caption: a(href=p.uri)= backCaption
 				else
 					div.back-caption= backCaption
-
+		if (archive)
+			div.summary
 
 
 block content
@@ -65,22 +66,24 @@ block content
 		div.slides
 			each project in projects
 				if project.highlight
-					+highlight-card(project)
+					+campaign-card(project, false)
 
 	if (documents['apply'])
 		section#section-apply
-			div.text-container!= marked(documents['apply'])
+			div.markdown-container!= marked(documents['apply'])
 
 	if (documents['case study'])
 		section#section-case-studies
-			div.text-container!= marked(documents['case study'])
+			div.markdown-container!= marked(documents['case study'])
 
 	section#section-archive
 		h2.section-header Archive
+		each project in projects
+			+campaign-card(project, true)
 
 	if (documents['about'])
 		section#section-about
-			div.text-container!= marked(documents['about'])
+			div.markdown-container!= marked(documents['about'])
 
 
 	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
