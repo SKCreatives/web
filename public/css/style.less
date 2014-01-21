@@ -421,13 +421,32 @@ a {
 
 
 
-
-@media
-  only screen and (max-device-width: 1136px) and (min-device-width: 960px) and (device-height: 640px),
-  only screen and (max-device-height: 1136px) and (min-device-height: 960px) and (device-width: 640px) {
-  /* iPhone only */
-  
+// iPhone 5 in portrait
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : portrait) {
+	.nav-menu-item {
+		font-size: 1.2em;
+	}
+	.markdown-container {
+		font-size: 1.2em;
+	}
 }
+
+// iPhone 2-4 in portrait
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) 
+and (orientation : portrait) {
+	.nav-menu-item {
+		font-size: 1.2em;
+	}
+	.markdown-container {
+		font-size: 1.2em;
+	}
+}
+
 
 input,
 textarea,
