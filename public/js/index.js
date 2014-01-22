@@ -177,23 +177,27 @@
 
 
     // Set up slider
-    $highlights.find('.slides').slidesjs({
-      width: slideWidth,
-      height: slideHeight,
-      play: {
-        active: false,
-        effect: "slide",
-        interval: 5000,
-        // auto: true,
-        swap: true,
-        pauseOnHover: true,
-        restartDelay: 2500
-      },
-      navigation: {
-        active: false,
-        effect: "slide"
-      }
-    });
+    var $highlightsSlides = $highlights.find('.slides');
+
+    if ($highlightsSlides.length > 1) {
+      $highlights.find('.slides').slidesjs({
+        width: slideWidth,
+        height: slideHeight,
+        play: {
+          active: false,
+          effect: "slide",
+          interval: 5000,
+          // auto: true,
+          swap: true,
+          pauseOnHover: true,
+          restartDelay: 2500
+        },
+        navigation: {
+          active: false,
+          effect: "slide"
+        }
+      });
+    }
 
 
     // Delegate click events on cards archive
