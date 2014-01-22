@@ -116,15 +116,20 @@ block content
 
 
 
+	- var hasHighlights = _.findWhere(projects, {highlight:true});
+	if (hasHighlights)
+		section#section-highlights
+			h2.section-header.hidden Highlights
+			div.slides
+				each project in projects
+					if project.highlight
+						+highligh-card-mixin(project)
 
-	section#section-highlights
-		h2.section-header.hidden Highlights
-		div.slides
-			each project in projects
-				if project.highlight
-					+highligh-card-mixin(project)
-
-
+	section#section-global-stats( data-total-dollars=totalDollars(projects), data-total-pounds=currency.convert('USD', 'GBP', totalDollars(projects)) )
+		h2 Total Backers
+		p= totalBackers(projects)
+		h2 Total Funds Raised
+		p= '$' + numeral( totalDollars(projects) ).format('0,0')
 
 
 	if (documents['apply'])
