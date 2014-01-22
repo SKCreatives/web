@@ -66,6 +66,8 @@ mixin archive-card-mixin(p)
 			h3.title= p.title
 			p.campaign-category=p.category
 			p.campaign-launch-date=moment(p.endTime).format('MM. DD. YY')
+			div.campaign-blurb
+				p= p.blurb
 		div.archive-media
 			if (p.video)
 				iframe(src=p.video.iframe, width=790, height=592, frameborder=0, scrolling='no')
@@ -78,26 +80,34 @@ mixin archive-card-mixin(p)
 		div.archive-footer
 			dl.campaign-meta
 				dt Project by
-				dd= p.creatorName
-				
+				if (p.creatorLink)
+					- var http = p.creatorLink.match(re);
+					dd: a(href= http ? p.creatorLink : 'http://'+p.creatorLink)= p.creatorName
+				else
+					dd= p.creatorName
+
 				dt Location
 				dd= p.location
 
-				if (p.website || p['website-1'])
-					dt Website
+				if (p.link || p['link-1'])
+					dt Links
 					dd: ul
-						- var originalUrl = p.website || p['website-1'];
+						- var originalUrl = p.link || p['link-1'];
 						- var http = originalUrl.match(re);
 						- var url = http ? originalUrl.replace(re, '') : originalUrl;
 						li: a(href= http ? originalUrl : 'http://'+url)= url
-						if (p['website-1'])
+						if (p['link-1'])
 							- var i = 2;
 							each prop, key in p
-								if (key === 'website-'+i)
+								if (key === 'link-'+i)
 									- i++;
 									- var http = prop.match(re);
 									- var url = http ? prop.replace(re, '') : prop;
 									li: a(href= http ? prop : 'http://'+url)= url
+
+				dt: a(href=p.uriResolved || p.uri) Campaign on #{p.serviceLabel}
+				dd
+
 
 			div.campaign-extras
 			div.card-close-button
@@ -122,7 +132,7 @@ block content
 			h2.section-header.hidden Highlights
 			div.slides
 				each project in projects
-					if project.highlight
+					if project.highlight && project.uri
 						+highligh-card-mixin(project)
 
 	section#section-global-stats( data-total-dollars=totalDollars(projects), data-total-pounds=currency.convert('USD', 'GBP', totalDollars(projects)) )
@@ -156,7 +166,8 @@ block content
 	section#section-archive
 		h2.section-header Archive
 		each project in projects
-			+archive-card-mixin(project)
+			if project.uri
+				+archive-card-mixin(project)
 
 
 
