@@ -140,6 +140,26 @@ loadDocuments(function(err, docs) {
 
 
 
+function totalDollars(projects) {
+  return _.reduce(projects, function(prev, curr, i) {
+    var pledged = currency.convert(curr.currency, 'USD', curr.pledged);
+
+    if (i === 1) {
+      prev = {
+        pledged: currency.convert(prev.currency, 'USD', prev.pledged)
+      };
+    }
+
+    return { pledged: prev.pledged + pledged || 0 };
+  }).pledged;
+}
+
+function totalBackers(projects) {
+  return _.reduce(projects, function(prev, curr, i) {
+    return { backersCount: prev.backersCount + curr.backersCount };
+  }).backersCount;
+}
+
 
 
 if (storage.protocol === 'dropbox') {
@@ -190,6 +210,8 @@ app.locals.marked = marked;
 app.locals.moment = moment;
 app.locals.numeral = numeral;
 app.locals.currency = currency;
+app.locals.totalDollars = totalDollars;
+app.locals.totalBackers = totalBackers;
 
 // View data
 app.locals.projects = projects;
