@@ -21,6 +21,7 @@ var Project  = require('./lib/Project.js');
 var Storage  = require('./lib/Storage.js');
 var dropMW   = require('./lib/staticDropbox-middleware.js');
 var dropPoll = require('./lib/dropboxPoller.js');
+var currency = require('./lib/currencyConverter.js');
 
 var app = module.exports = express();
 var port = process.env.PORT || 3000;
@@ -34,7 +35,8 @@ try {
   credentials = {
     DROPBOX_APP_KEY: process.env.DROPBOX_APP_KEY,
     DROPBOX_APP_SECRET: process.env.DROPBOX_APP_SECRET,
-    DROPBOX_TOKEN: process.env.DROPBOX_TOKEN
+    DROPBOX_TOKEN: process.env.DROPBOX_TOKEN,
+    OPENEXCHANGERATES_KEY: process.env.OPENEXCHANGERATES_KEY
   };
 }
 
@@ -52,9 +54,13 @@ var storage = new Storage(config.storage, storageOptions);
 var projects = [];
 var documents = {};
 
+
 // Start the scraper
 scraper = scraper({ projects: projects });
 scraper.start();
+
+// Start the currency converter
+currency = currency({ storage: storage, credentials: credentials });
 
 // function 
 // Load campaigns
@@ -129,7 +135,7 @@ function loadDocuments(callback) {
 
 
 loadDocuments(function(err, docs) {
-  console.log(docs);
+  // console.log(docs);
 });
 
 
@@ -148,7 +154,7 @@ if (storage.protocol === 'dropbox') {
       entry = entries[i];
       filename = entry[0];
       basename = path.basename(filename);
-      console.log(filename, basename)
+
       if (basename === 'projects.yaml') {
         loadCampaignsOnce(function(err, campaings) {
           console.log('campaings updated');
@@ -183,6 +189,7 @@ app.locals._ = _;
 app.locals.marked = marked;
 app.locals.moment = moment;
 app.locals.numeral = numeral;
+app.locals.currency = currency;
 
 // View data
 app.locals.projects = projects;
