@@ -39,6 +39,24 @@ html
 		div#main
 			header#section-header
 				h1.logo: span.hidden Sidekick Creatives
+				
+				div.tagline!= marked(documents['tagline'])
+
+				div.totals( data-total-dollars=totalDollars(projects), data-total-pounds=currency.convert('USD', 'GBP', totalDollars(projects)) )
+					span.big= '£' + numeral( currency.convert('USD', 'GBP', totalDollars(projects)) ).format('0,0')
+					span.small  raised by 
+					span.big= totalBackers(projects)
+					span.small  backers over 
+					span.big= projects.length
+					span.small  campaigns
+
+				div.nav-menu
+					ul
+						li.nav-menu-item: a(href='#section-highlights', title='Project highlights') Highlights
+						li.nav-menu-item: a(href='#section-about', title='About Sidekick') About
+						li.nav-menu-item: a(href='#section-apply', title='Project Applications') Apply
+						li.nav-menu-item: a(href='#section-case-studies', title='Case Studies') Case Studies
+						li.nav-menu-item: a(href='#section-archive', title='Archive of supported projects') Archive
 			block content
 
 		footer#section-footer

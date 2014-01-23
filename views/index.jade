@@ -115,16 +115,6 @@ mixin archive-card-mixin(p)
 
 
 block content
-	section#section-index
-		div.nav-menu
-			ul
-				li.nav-menu-item: a(href='#section-highlights', title='Project highlights') Highlights
-				li.nav-menu-item: a(href='#section-about', title='About Sidekick') About
-				li.nav-menu-item: a(href='#section-apply', title='Project Applications') Apply
-				li.nav-menu-item: a(href='#section-case-studies', title='Case Studies') Case Studies
-				li.nav-menu-item: a(href='#section-archive', title='Archive of supported projects') Archive
-
-
 
 	- var hasHighlights = _.findWhere(projects, {highlight:true});
 	if (hasHighlights)
@@ -134,12 +124,6 @@ block content
 				each project in projects
 					if project.highlight && project.uri
 						+highligh-card-mixin(project)
-
-	section#section-global-stats( data-total-dollars=totalDollars(projects), data-total-pounds=currency.convert('USD', 'GBP', totalDollars(projects)) )
-		h2 Total Backers
-		p= totalBackers(projects)
-		h2 Total Funds Raised
-		p= '$' + numeral( totalDollars(projects) ).format('0,0')
 
 
 	if (documents['apply'])
