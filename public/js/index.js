@@ -178,9 +178,8 @@
 
     // Set up slider
     var $highlightsSlides = $highlights.find('.slides');
-
-    if ($highlightsSlides.length > 1) {
-      $highlights.find('.slides').slidesjs({
+    if ($highlightsSlides.children().length > 1) {
+      $highlightsSlides.slidesjs({
         width: slideWidth,
         height: slideHeight,
         play: {
