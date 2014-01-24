@@ -1,4 +1,4 @@
-/*global Raphael, SK, moment */
+/*global Raphael, SK, moment, animLoop */
 
 (function() {
   var SK = window.SK = window.SK || {};
@@ -146,7 +146,8 @@
 
 
     // Update graphs
-    $('.stats').each(function generateGraphs(i, el) {
+    var $stats = $('.stats');
+    $stats.each(function generateGraphs(i, el) {
       var $el = $(el);      
       var data = $el.data();      
       var $backers = $el.find('.backers-graph');
@@ -194,6 +195,12 @@
         navigation: {
           active: false,
           effect: "slide"
+        },
+        complete: function(number) {
+          for (var i = 0, data; i < graphs.length; i++) {
+            data = graphs[i];
+            updateGraph(data);
+          }
         }
       });
     }
@@ -236,3 +243,38 @@
 
 
 }());
+
+
+
+
+// Cross browser, backward compatible solution
+(function( window, Date ) {
+// feature testing
+  var raf = window.mozRequestAnimationFrame    ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame     ||
+            window.oRequestAnimationFrame;
+
+  window.animLoop = function( render, element ) {
+    var running, lastFrame = +new Date;
+    function loop( now ) {
+      if ( running !== false ) {
+        raf ?
+          raf( loop, element ) :
+          // fallback to setTimeout
+          setTimeout( loop, 16 );
+        // Make sure to use a valid time, since:
+        // - Chrome 10 doesn't return it at all
+        // - setTimeout returns the actual timeout
+        now = now && now > 1E4 ? now : +new Date;
+        var deltaT = now - lastFrame;
+        // do not render frame when deltaT is too high
+        if ( deltaT < 160 ) {
+          running = render( deltaT, now );
+        }
+        lastFrame = now;
+      }
+    }
+    loop();
+  };
+})( window, Date );
