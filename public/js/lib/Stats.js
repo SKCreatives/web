@@ -90,8 +90,12 @@
     this.$el = $(el);
     this.total = total;
     this.$gauge = $('<div class="gauge">');
-    this.$text = $('<div class="text">');
-    
+    this.$text = $('<div class="text"/>');
+    this.$textAmount = $('<span class="amount">');
+    this.$textLabel = $('<span class="label"> pledged </span>');
+
+    this.$text.append(this.$textAmount);
+    this.$text.append(this.$textLabel);
     this.$gauge.append(this.$text);
     this.$el.append(this.$gauge);
   };
@@ -104,12 +108,12 @@
     var gaugeHeight = totalHeight * value / this.total;
     var textHeight = this.$text.height();
 
-    this.$text.text(valueString + ' pledged');
+    this.$textAmount.text(valueString);
     this.$text.removeClass('inverted');
 
     if (gaugeHeight < textHeight) {
-      this.text.addClass('inverted');
-      this.$text.css({'top': -textHeight -20});
+      this.$text.addClass('inverted');
+      this.$text.css({'bottom': gaugeHeight + 20});
     }
 
     if (gaugeHeight > totalHeight) {

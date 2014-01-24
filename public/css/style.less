@@ -426,19 +426,26 @@ a {
 	}
 
 	.text {
+		line-height: initial;
 		position: relative;
 		top: auto;
 		color: @blue;
 		display: inline-block;
 		width: 100%;
 		text-align: center;
-		vertical-align: top;
+		vertical-align: middle;
 		text-shadow: none;
 
-		.inverted {
+		.amount {
+			display: block;
+			font-weight: bold;
+			font-size: 1.8em;
+		}
+
+		&.inverted {
 			position: absolute;
-			color: white;
-			text-shadow: 0px 0px 2px rgb(0,30,97), 0px 0px 10px @blue;
+			color: @white;
+			text-shadow: 4px 0px 2px @blue, -4px 0px 2px @blue, 0px -4px 2px @blue, 0px 4px 2px @blue;
 		}
 	}
 }
