@@ -125,7 +125,13 @@
   var graphs = [];
 
 
+
+
+
   $(function($) {
+    var $htmlBody = $('html,body');
+    var $window = $(window);
+    var $navMenu = $('.nav-menu');
     var $cards = $('.card');
     var $highlights = $('#section-highlights');
     var $card = $($highlights.find('.card')[0]);
@@ -142,6 +148,7 @@
         var $el = $(image.img);
         var dims = getScaledImageSize(image.img);
         $el.css(dims);
+        $el.fadeIn(1000);
       });
 
 
@@ -228,6 +235,36 @@
       if (!$el.hasClass('active')) {
         $el.removeClass('show-children');
       }
+    });
+
+    // Scroll to headers
+    $navMenu.on('click', '.nav-menu-item', function(e) {
+      var $el = $(this);
+      var id = $el.find('a').attr('href');
+      var scrollmem = $('body').scrollTop();
+      window.location.hash = id;
+      $htmlBody.scrollTop(scrollmem);
+      e.preventDefault();
+      $window.scrollTo($(id), {offset: -70, duration:1000});
+    });
+
+
+    // Sticky menu
+
+    var navOffset = $navMenu.offset().top;
+    var prevDiff = 0;
+    
+    if (navOffset - window.scrollY >= 0) {
+      $navMenu.addClass('fixed');
+    }
+
+    $window.on('scroll', function() {
+      if (navOffset - window.scrollY <= 0 && prevDiff > 0) {
+        $navMenu.addClass('fixed');
+      } else if (navOffset - window.scrollY > 0 && prevDiff <= 0) {
+        $navMenu.removeClass('fixed');
+      }
+      prevDiff = navOffset - window.scrollY;
     });
 
 
