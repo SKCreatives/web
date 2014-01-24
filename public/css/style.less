@@ -246,20 +246,6 @@ a {
 	-ms-transition: max-height 1000ms;
 	transition: max-height 1000ms;
 
-	// .archive-media,
-	// .poster-img,
-	// .stats,
-	// .archive-footer {
-	// 	display: none;
-	// }
-
-	// &.show-children .archive-media,
-	// &.show-children .poster-img,
-	// &.show-children .stats,
-	// &.show-children .archive-footer {
-	// 	display: block;
-	// }
-
 	iframe {
 		display: block;
 	}
@@ -525,6 +511,41 @@ a {
 	border-top-color: black;
 }
 
+#subForm {
+	position: relative;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-top-width: 3px;
+	border-top-style: solid;
+	border-top-color: black;
+
+	.form-message {
+		width: 100%;
+		position: absolute;
+	}
+
+	.email-field {
+		margin-top: 2.5em;
+	}
+}
+
+#section-footer {
+	text-align: center;
+	padding-bottom: 100px;
+	.text-micro {
+		text-transform: uppercase;
+		font-size: 12px;
+	}
+}
+
+.facebook,
+.contact,
+.twitter {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
 .section-header {
 	padding-top: 20px;
 }
@@ -592,23 +613,43 @@ a {
 	}
 }
 
+.archive-ios() {
+	.card.archive {
+		.archive-media,
+		.poster-img,
+		.stats,
+		.archive-footer {
+			display: none;
+		}
+
+		&.show-children .archive-media,
+		&.show-children .poster-img,
+		&.show-children .stats,
+		&.show-children .archive-footer {
+			display: block;
+		}
+	}
+}
 
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px)  {
 	.nav-menu-ios();
+	// .archive-ios();
 }
 
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 568px) {
 	.nav-menu-ios();
+	.archive-ios();
 }
 
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
 	.nav-menu-ios();
+	.archive-ios();
 }
 
 // iPhone 5 in portrait

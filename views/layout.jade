@@ -59,7 +59,21 @@ html
 			block content
 
 		footer#section-footer
-			p.hidden Website by 
+			form#subForm.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
+				p.form-message Subscribe to our newsletter
+				
+				div.email-field
+					label(class='hidden', for="kivt-kivt") Email: 
+					input(type="text", name="cm-kivt-kivt", id="kivt-kivt", placeholder='Enter your email here…')
+					input(type="submit", value="Subscribe")
+
+				p.text-micro (We won't nag your inbox. We hate trigger-happy newsletters as much as you do)
+
+			p.ib.button.contact: a(href="mailto:hello@sidekickcreatives.com") Email
+			p.ib.button.facebook: a(href="//www.facebook.com/SidekickCreatives") Facebook
+			p.ib.button.twitter: a(href="//twitter.com/sidekickcrea") Twitter
+
+			div.hidden Website by 
 				a(href='//theworkers.net/', title='The Workers') The Workers.
 			block footer
 

@@ -153,17 +153,3 @@ block content
 			if project.uri
 				+archive-card-mixin(project)
 
-
-
-
-	form#subForm.text-body.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
-		p(style='white-space:pre;')
-			| Coming Soon
-			| Subscribe to our newsletter
-		
-		div
-			label(class='hidden', for="kivt-kivt") Email: 
-			input(type="text", name="cm-kivt-kivt", id="kivt-kivt", placeholder='Enter your email here…')
-			input(type="submit", value="Subscribe")
-		
-		p.text-micro (We won't nag your inbox. We hate trigger-happy newsletters as much as you do)

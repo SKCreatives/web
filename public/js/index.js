@@ -237,6 +237,8 @@
       }
     });
 
+    $window.scrollTo($(window.location.hash), {offset: -$navMenu.height(), duration:200});
+
     // Scroll to headers
     $navMenu.on('click', '.nav-menu-item', function(e) {
       var $el = $(this);
@@ -272,7 +274,12 @@
     $('#subForm').submit(function (e) {
       e.preventDefault();
       $.getJSON(this.action + "?callback=?", $(this).serialize(), function (data) {
-        if (data.Status >= 400) return new Error(data.Status + ' ' + data.Message);
+        console.log(data)
+        if (data.Status >= 400) {
+          $('#subForm').find('.form-message').addClass('error');
+        }
+        
+        $('#subForm').find('.form-message').text(data.Message);
       });
     });
 
