@@ -245,7 +245,7 @@
       window.location.hash = id;
       $htmlBody.scrollTop(scrollmem);
       e.preventDefault();
-      $window.scrollTo($(id), {offset: -70, duration:1000});
+      $window.scrollTo($(id), {offset: -$navMenu.height(), duration:1000});
     });
 
 
