@@ -1,0 +1,5 @@
+{
+	"port": 8080,
+	"stagingMode": false,
+	"storage": "dropbox://apps/sk"
+}

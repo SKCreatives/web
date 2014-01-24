@@ -7,50 +7,87 @@ html
 	head
 		meta(charset='UTF-8')
 		meta(http-equiv='Content-Language', content='en')
-		meta(name='viewport', content='width=device-width')
 		meta(name='author', content='The Workers London Ltd.')
-		meta(name='apple-mobile-web-app-capable',           content='yes')
-		meta(name='apple-mobile-web-app-status-bar-style',  content='black')
-		meta(http-equiv='imagetoolbar',     content='false')
-		meta(http-equiv='X-UA-Compatible',  content='IE=edge,chrome=1')
-		meta(name="google-site-verification", content="5ED_CojmDIY-Vcu9E1gJf1NpFzlENz7x9wzlyBp-abw")
-		block title
-			title Sidekick Creatives
-		block description
-			meta(name='description', content='Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms.')
-		block stylesheets
-			link(rel='stylesheet', type='text/css', href='/css/reset.css')
-			link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
-		block headScripts
-			script(src='/js/lib/html5shiv-printshiv.js')
-	body
-		header
-			h1 Sidekick Creatives
-			block header
-				div.logo
 
-		section#root
+		title= title ? title + ' — Sidekick Creatives' : 'Sidekick Creatives'
+		meta(name='description', content=description || 'Sidekick Creatives supports creative projects to be successfully launched on crowdfunding platforms.')
+		
+		//- Apple - http://developer.apple.com/library/safari/#documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
+		meta(name='viewport', content='width=device-width', id='meta-viewport')
+		meta(name='apple-mobile-web-app-capable', content='yes')
+		meta(name='apple-mobile-web-app-status-bar-style', content='black')
+		meta(name='format-detection', content='telephone=no')
+
+		//- Windows 8 (TileImage should be 144px)
+		meta(name='application-name', content='The Workers')
+		meta(name='msapplication-TileColor', content='#515254')
+		meta(name='msapplication-TileImage', content='apple-touch-icon-144x144-precomposed.png')
+		
+		//- Google
+		meta(name="google-site-verification", content="5ED_CojmDIY-Vcu9E1gJf1NpFzlENz7x9wzlyBp-abw")
+		meta(name="google", content="notranslate")
+
+		link(rel='stylesheet', type='text/css', href='/css/reset.css')
+		link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
+
+		include includes/liveReload.jade
+		script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv-printshiv.min.js')
+		script window.html5 || document.write('<script src="/js/vendor/tml5shiv-printshiv.min.js"><\/script>')
+		block headScripts
+
+	body
+		div#main
+			header#section-header
+				h1.logo: span.hidden Sidekick Creatives
+				
+				div.tagline!= marked(documents['tagline'])
+
+				div.totals( data-total-dollars=totalDollars(projects), data-total-pounds=currency.convert('USD', 'GBP', totalDollars(projects)) )
+					span.big= '£' + numeral( currency.convert('USD', 'GBP', totalDollars(projects)) ).format('0,0')
+					span.small  raised by 
+					span.big= totalBackers(projects)
+					span.small  backers over 
+					span.big= projects.length
+					span.small  campaigns
+
+				div.nav-menu
+					ul
+						li.nav-menu-item: a(href='#section-about', title='About Sidekick') About
+						li.nav-menu-item: a(href='#section-apply', title='Project Applications') Apply
+						li.nav-menu-item: a(href='#section-case-studies', title='Case Studies') Case Studies
+						li.nav-menu-item: a(href='#section-archive', title='Archive of supported projects') Archive
 			block content
 
-		footer
-			p.hidden Website by 
+		footer#section-footer
+			form#subForm.campaign-monitor(action="http://sidekickcreatives.createsend.com/t/t/s/kivt/", method="post")
+				p.form-message Subscribe to our newsletter
+				
+				div.email-field
+					label(class='hidden', for="kivt-kivt") Email: 
+					input(type="text", name="cm-kivt-kivt", id="kivt-kivt", placeholder='Enter your email here…')
+					input(type="submit", value="Subscribe")
+
+				p.text-micro (We won't nag your inbox. We hate trigger-happy newsletters as much as you do)
+
+			p.ib.button.contact: a(href="mailto:hello@sidekickcreatives.com") Email
+			p.ib.button.facebook: a(href="//www.facebook.com/SidekickCreatives") Facebook
+			p.ib.button.twitter: a(href="//twitter.com/sidekickcrea") Twitter
+
+			div.hidden Website by 
 				a(href='//theworkers.net/', title='The Workers') The Workers.
 			block footer
-				p.inline.button.contact: a(href='mailto:hello@sidekickcreatives.com') Contact
-				p.inline.button.facebook: a(href='//www.facebook.com/SidekickCreatives') Facebook
-				p.inline.button.twitter: a(href='//twitter.com/sidekickcrea') Twitter
 
-	block bodyscripts
-		script(src='/js/lib/jquery-1.8.3.min.js')
-		script(src='/js/lib/underscore-min.js')
-		script(src='/js/o.js' +cachebust)
-		script(src='/js/Util.js' +cachebust)
-		script(src='/js/ui.js' +cachebust)
-		script
-			var sc_project = 8670875;
-			var sc_invisible = 1;
-			var sc_security = "14c8ce86";
-			var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www." );
-			var script = document.createElement('script');
-			script.src = scJsHost + "statcounter.com/counter/counter.js";
-			document.body.insertBefore(script, null)
+		block bodyscripts
+			include includes/analytics.jade
+			script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+			script window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.2.min.js"><\/script>')
+			script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js')
+			script window.Raphael || document.write('<script src="/js/vendor/raphael.js"><\/script>')
+			script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.0/moment.min.js')
+			script window.moment || document.write('<script src="/js/vendor/moment.min.js"><\/script>')
+			script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.9/jquery.scrollTo.min.js')
+			script window.jQuery.scrollTo || document.write('<script src="/js/vendor/jquery.scrollTo.min.js"><\/script>')
+			script(src='/js/vendor/jquery.slides.min.js' +cachebust)
+			script(src='/js/vendor/imagesloaded.pkgd.js' +cachebust)
+			script(src='/js/lib/Stats.js' +cachebust)
+			script(src='/js/index.js' +cachebust)

@@ -1,0 +1,13 @@
+{
+	"mode": {
+		"production": {}
+	},
+	"host": {
+		"web316.webfaction.com": {
+			"listenPort": 11690
+		},
+		"duderino.local": {
+			"listenPort": 2010
+		}
+	}
+}

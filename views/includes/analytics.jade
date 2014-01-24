@@ -1,0 +1,27 @@
+//- Google Analytics
+script.
+	var _gaq = _gaq || [];
+	_gaq.push(
+			['a._setAccount', 'UA-XXXXX-X']
+		,	['a._trackPageview']
+		,	['b._setAccount', 'UA-XXXXX-X']
+		,	['b._trackPageview']
+	);
+	(function(doc, tag){
+		var el = doc.createElement(tag);
+		var ct = doc.getElementsByTagName(tag)[0];
+		el.src = ('https:' === location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+		ct.parentNode.insertBefore(el, ct);
+	}(document, 'script'));
+
+//- Statcounter
+script.
+	var sc_project = 0000000;
+	var sc_invisible = 1;
+	var sc_security = "000000";
+	(function(doc, tag) {
+		var el = doc.createElement(tag);
+		var ct = doc.getElementsByTagName(tag)[0];
+		el.src = ('https:' === location.protocol ? '//secure' : '//www') + '.statcounter.com/counter/counter.js';
+		ct.parentNode.insertBefore(el, ct);
+	}(document, 'script'))

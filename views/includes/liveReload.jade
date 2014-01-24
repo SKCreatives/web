@@ -1,0 +1,10 @@
+script.
+	var _lr = _lr || {};
+	_lr.host = (location.host || 'localhost').split(':')[0];
+	_lr.port = 35729;
+	(function(doc, tag) {
+		var el = doc.createElement(tag);
+		var ct = doc.getElementsByTagName(tag)[0];
+		el.src = '//' + _lr.host + ':' + _lr.port + '/livereload.js?snipver=1';
+		ct.parentNode.insertBefore(el, ct);
+	}(document, 'script'));

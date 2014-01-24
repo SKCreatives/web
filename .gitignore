@@ -2,8 +2,9 @@
 .DS_Store
 
 public/downloads/*
-data/
-public/js/vendor/
+data/cache/*
+public/css/style.css
+/credentials.*
 
 # Node stuff
 node_modules/

@@ -1,31 +1,39 @@
 {
-  "name": "Sidekick",
-  "version": "0.0.1",
-  "private": true,
+  "name": "sidekick",
+  "version": "0.0.2",
   "description": "The website",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --debug app.js --port '11690'",
-    "test": "a"
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "https://tmslnz@bitbucket.org/theworkers/sidekick.git",
-    "url": "a"
+    "type": "git",
+    "url": "https://tmslnz@bitbucket.org/theworkers/sidekick.git"
   },
-  "keywords": [
-    "a"
-  ],
   "author": "The Workers",
   "license": "All rights reserved Sidekick Creatives Ltd",
   "dependencies": {
-    "express": "~3.0.5",
-    "jade": "*",
-    "less-middleware": "*",
-    "commander": "~1.0.5",
-    "underscore": "~1.4.2",
-    "marked": "~0.2.6",
-    "connect-chromeframe": "https://github.com/theworkers/connect-chromeframe/tarball/master",
-    "connect-favicons": "https://github.com/theworkers/connect-favicons/tarball/master",
-    "connect-no-www": "~0.1.1"
+    "connect-favicons": "git://github.com/theworkers/connect-favicons.git",
+    "express": "3.4.4",
+    "jade": "0.35.0",
+    "js-yaml": "2.1.3",
+    "less-middleware": "0.1.14",
+    "marked": "0.2.10",
+    "nodemon": "0.7.10",
+    "lodash": "2.3.0",
+    "request": "2.27.0",
+    "cheerio": "0.12.4",
+    "string": "1.7.0",
+    "async": "0.2.9",
+    "config": "0.4.33",
+    "connect": "2.11.0",
+    "moment": "2.4.0",
+    "dropbox": "0.10.2",
+    "nowww": "1.1.2",
+    "numeral": "1.5.3"
+  },
+  "engines": {
+    "node": "0.10.22"
   }
 }
