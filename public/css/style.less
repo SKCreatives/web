@@ -496,6 +496,7 @@ a {
 		margin-left: -10px;
 		margin-right: -10px;
 	}
+
 }
 
 
@@ -592,7 +593,7 @@ a {
 				content: "×"; /* × */
 			}
 		}
-
+		
 		li:before,
 		b {
 		  display: inline-block;
@@ -617,6 +618,7 @@ a {
 		padding-top: @lineHeight / 2;
 		text-transform: uppercase;
 	}
+
 }
 
 
@@ -624,7 +626,7 @@ a {
 .nav-menu-ios() {
 	.nav-menu {
 		&.fixed {
-			position: relative;
+			position: absolute;
 			top: auto;
 			margin-top: 20px;
 		}
@@ -649,24 +651,34 @@ a {
 	}
 }
 
+
+// iPad
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px)  {
-	// .nav-menu-ios();
+	.nav-menu-ios();
 	// .archive-ios();
 }
 
+// iPhone All
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 568px) {
-	// .nav-menu-ios();
+	.nav-menu-ios();
 	.archive-ios();
+	// * { margin: -1px; }
+	// .nav-menu {
+	// 	border: 1px solid transparent;
+	// }
+	// html {
+	//   min-width: 1024px;
+	// }
 }
 
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
-	// .nav-menu-ios();
+	.nav-menu-ios();
 	.archive-ios();
 }
 
