@@ -31,7 +31,7 @@ mixin card-stats-mixin(p)
 			div.days-caption= ( (daysLeft > 0) ? daysLeft : 0 ) + ' days to go'
 		div.back.ib
 			div.back-graph
-				div.text $
+				div.text= symbol
 			if (daysLeft > 0)
 				div.back-caption: a(href=p.uri)= backCaption
 			else
@@ -126,10 +126,16 @@ block content
 						+highligh-card-mixin(project)
 
 
+
+	if (documents['about'])
+		section#section-about
+			div.markdown-container!= marked(documents['about'])
+
+
+
 	if (documents['apply'])
 		section#section-apply
 			div.markdown-container!= marked(documents['apply'])
-
 
 
 
@@ -139,16 +145,8 @@ block content
 
 
 
-
-	if (documents['about'])
-		section#section-about
-			div.markdown-container!= marked(documents['about'])
-
-
-
-
 	section#section-archive
-		h2.section-header Archive
+		h2.section-header Campaigns
 		each project in projects
 			if project.uri
 				+archive-card-mixin(project)

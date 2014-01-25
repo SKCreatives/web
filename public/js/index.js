@@ -277,9 +277,11 @@
     var navOffset = $navMenu.offset().top;
     var prevDiff = 0;
     
-    if (navOffset - window.scrollY >= 0) {
-      $navMenu.addClass('fixed');
-    }
+    setTimeout(function() {
+      if (navOffset - window.scrollY <= 0) {
+        $navMenu.addClass('fixed');
+      }
+    }, 2000);
 
     $window.on('scroll', function() {
       if (navOffset - window.scrollY <= 0 && prevDiff > 0) {
