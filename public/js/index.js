@@ -1,10 +1,11 @@
-/*global Raphael, SK, moment, animLoop */
+/*global Raphael, SK, moment */
 
 (function() {
   var SK = window.SK = window.SK || {};
   var now = moment();
   var HIGHLIGHTS_IMG_WIDTH = 790;
   var HIGHLIGHTS_IMG_RATIO = 2/1;
+  var graphs = [];
 
 
 
@@ -122,13 +123,10 @@
   }
 
 
-  var graphs = [];
-
-
-
 
 
   $(function($) {
+
     var $htmlBody = $('html,body');
     var $window = $(window);
     var $navMenu = $('.nav-menu');
@@ -138,7 +136,11 @@
     var slideWidth = $card.width();
     var slideHeight = $card.height();
 
-    // Set up image dimensions
+
+
+
+
+    // Scale / trim poster images on campaign cards
     $cards.find('.poster-img').imagesLoaded()
       .always( function( instance ) {})
       .done( function( instance ) {})
@@ -152,7 +154,10 @@
       });
 
 
-    // Update graphs
+
+
+
+    // Intialise stats graphs
     var $stats = $('.stats');
     $stats.each(function generateGraphs(i, el) {
       var $el = $(el);      
@@ -184,7 +189,10 @@
     });
 
 
-    // Set up slider
+
+
+
+    // Slideshow setup when more than one project
     var $highlightsSlides = $highlights.find('.slides');
     if ($highlightsSlides.children().length > 1) {
       $highlightsSlides.slidesjs({
@@ -213,7 +221,11 @@
     }
 
 
+
+
+
     // Delegate click events on cards archive
+    // Update graphs toggle special classes for hiding children on iOS
     $('#section-archive').on('click', '.archive-header-row', function() {
       var $el = $(this);
       var $card = $el.parentsUntil('#section-archive').filter('.card');
@@ -258,8 +270,10 @@
     });
 
 
-    // Sticky menu
 
+
+
+    // Sticky menu
     var navOffset = $navMenu.offset().top;
     var prevDiff = 0;
     
@@ -277,11 +291,13 @@
     });
 
 
+
+
+
     // Send form
     $('#subForm').submit(function (e) {
       e.preventDefault();
       $.getJSON(this.action + "?callback=?", $(this).serialize(), function (data) {
-        console.log(data)
         if (data.Status >= 400) {
           $('#subForm').find('.form-message').addClass('error');
         }
@@ -290,42 +306,6 @@
       });
     });
 
-  });
+  }); // onready
 
-
-}());
-
-
-
-
-// Cross browser, backward compatible solution
-(function( window, Date ) {
-// feature testing
-  var raf = window.mozRequestAnimationFrame    ||
-            window.webkitRequestAnimationFrame ||
-            window.msRequestAnimationFrame     ||
-            window.oRequestAnimationFrame;
-
-  window.animLoop = function( render, element ) {
-    var running, lastFrame = +new Date;
-    function loop( now ) {
-      if ( running !== false ) {
-        raf ?
-          raf( loop, element ) :
-          // fallback to setTimeout
-          setTimeout( loop, 16 );
-        // Make sure to use a valid time, since:
-        // - Chrome 10 doesn't return it at all
-        // - setTimeout returns the actual timeout
-        now = now && now > 1E4 ? now : +new Date;
-        var deltaT = now - lastFrame;
-        // do not render frame when deltaT is too high
-        if ( deltaT < 160 ) {
-          running = render( deltaT, now );
-        }
-        lastFrame = now;
-      }
-    }
-    loop();
-  };
-})( window, Date );
+}()); // closure
