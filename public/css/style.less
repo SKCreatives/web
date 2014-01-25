@@ -72,7 +72,7 @@ a {
 	margin-right: auto;
 	padding-left: 20px;
 	padding-right: 20px;
-	padding-bottom: 20px;
+	padding-bottom: 30px;
 }
 
 #section-highlights {
@@ -496,6 +496,7 @@ a {
 		margin-left: -10px;
 		margin-right: -10px;
 	}
+
 }
 
 
@@ -580,11 +581,29 @@ a {
 	}
 
 	ul, ol {
-		list-style-position: inside;
+		list-style-position: outside;
 	}
 
 	ul {
-		list-style-type: disc;
+		list-style-type: none;
+
+		li {
+			background-image: ~'expression(this.runtimeStyle.backgroundImage="none",this.innerHTML = "⨯"+this.innerHTML)';
+			&:before {
+				content: "×"; /* × */
+			}
+		}
+		
+		li:before,
+		b {
+		  display: inline-block;
+		  width: 1em;
+		  margin-left: -0.6em;
+		  margin-right: 0.4em;
+		  font-size: 0.8em;
+		  font-weight: 800;
+		  // text-align: center;
+		}
 	}
 
 	ol {
@@ -599,6 +618,7 @@ a {
 		padding-top: @lineHeight / 2;
 		text-transform: uppercase;
 	}
+
 }
 
 
@@ -606,7 +626,7 @@ a {
 .nav-menu-ios() {
 	.nav-menu {
 		&.fixed {
-			position: relative;
+			position: absolute;
 			top: auto;
 			margin-top: 20px;
 		}
@@ -631,6 +651,8 @@ a {
 	}
 }
 
+
+// iPad
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px)  {
@@ -638,11 +660,19 @@ and (max-device-width : 1024px)  {
 	// .archive-ios();
 }
 
+// iPhone All
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 568px) {
 	.nav-menu-ios();
 	.archive-ios();
+	// * { margin: -1px; }
+	// .nav-menu {
+	// 	border: 1px solid transparent;
+	// }
+	// html {
+	//   min-width: 1024px;
+	// }
 }
 
 @media only screen 
@@ -660,6 +690,10 @@ and (orientation : portrait) {
 	.section-header {
 		font-size: 1.2em;
 	}
+	#section-header .totals,
+	#section-header .tagline {
+		font-size: 1.15em;
+	}
 	.nav-menu-item {
 		font-size: 1.2em;
 	}
@@ -675,6 +709,10 @@ and (max-device-width : 480px)
 and (orientation : portrait) {
 	.section-header {
 		font-size: 1.2em;
+	}
+	#section-header .totals,
+	#section-header .tagline {
+		font-size: 1.15em;
 	}
 	.nav-menu-item {
 		font-size: 1.2em;
