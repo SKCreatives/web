@@ -237,7 +237,14 @@
       }
     });
 
-    $window.scrollTo($(window.location.hash), {offset: -$navMenu.height(), duration:200});
+
+
+
+
+    // Scroll to hash on load
+    if (window.location.hash) {
+      $window.scrollTo($(window.location.hash), {offset: -$navMenu.height(), duration:200, axis:'y'});
+    }
 
     // Scroll to headers
     $navMenu.on('click', '.nav-menu-item', function(e) {
@@ -247,7 +254,7 @@
       window.location.hash = id;
       $htmlBody.scrollTop(scrollmem);
       e.preventDefault();
-      $window.scrollTo($(id), {offset: -$navMenu.height(), duration:1000});
+      $window.scrollTo($(id), {offset: -$navMenu.height(), duration:1000, axis:'y'});
     });
 
 
