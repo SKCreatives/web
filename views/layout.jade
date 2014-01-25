@@ -40,7 +40,8 @@ html
 			header#section-header
 				h1.logo: span.hidden Sidekick Creatives
 				
-				div.tagline!= marked(documents['tagline'])
+				if (documents['tagline'])
+					div.tagline!= marked(documents['tagline'])
 
 				div.totals( data-total-dollars=totalDollars(projects), data-total-pounds=currency.convert('USD', 'GBP', totalDollars(projects)) )
 					span.big= '£' + numeral( currency.convert('USD', 'GBP', totalDollars(projects)) ).format('0,0')
