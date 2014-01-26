@@ -10,7 +10,6 @@ var async    = require('async');
 var moment   = require('moment');
 var numeral  = require('numeral');
 var favicons = require('connect-favicons');
-var nowww    = require('nowww');
 var request  = require('request');
 var cheerio  = require('cheerio');
 var _        = require('lodash');
