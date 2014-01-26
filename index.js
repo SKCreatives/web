@@ -219,7 +219,7 @@ app.locals.documents = documents;
 
 
 // Middleware
-app.use(nowww());
+// app.use(nowww());
 app.use(favicons(__dirname + '/public/img/icons'));
 app.use(express.logger('dev'));
 app.use(connect.urlencoded());
