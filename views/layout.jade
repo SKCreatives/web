@@ -30,12 +30,13 @@ html
 		link(rel='stylesheet', type='text/css', href='/css/reset.css')
 		link(rel='stylesheet', type='text/css', href='/css/style.css' +cachebust)
 
-		include includes/liveReload.jade
+		if (!settings.env || settings.env === 'development')
+			include includes/liveReload.jade
 		script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv-printshiv.min.js')
 		script window.html5 || document.write('<script src="/js/vendor/tml5shiv-printshiv.min.js"><\/script>')
 		block headScripts
 
-	body
+	body(class=settings.env ? 'node-env-'+settings.env : 'node-env-undefined')
 		div#main
 			header#section-header
 				h1.logo: span.hidden Sidekick Creatives
@@ -79,7 +80,8 @@ html
 			block footer
 
 		block bodyscripts
-			include includes/analytics.jade
+			if (settings.env === 'production')
+				include includes/analytics.jade
 			script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js')
 			script window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.2.min.js"><\/script>')
 			script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js')
