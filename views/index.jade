@@ -65,7 +65,7 @@ mixin archive-card-mixin(p)
 		div.archive-header-row
 			h3.title= p.title
 			p.campaign-category=p.category
-			p.campaign-launch-date=moment(p.endTime).format('MM. DD. YY')
+			p.campaign-launch-date=moment(p.endTime).format('DD. MM. YY')
 			div.campaign-blurb
 				p= p.blurb
 		div.archive-media
