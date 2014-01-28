@@ -95,35 +95,36 @@ function loadCampaigns(callback) {
 }
 
 loadCampaigns(function(err, campaigns) {
-  console.log(err);
+  if (err) console.log(err.stack);
 });
 
 // Load documents
 function loadDocuments(callback) {
   callback = callback || noop;
-  storage.readdir('documents', function(err, filenames, dirStat, stats) {
+  storage.readdir('documents', function readdirCb(err, filenames, dirStat, stats) {
     if (err) return callback(err);
-
     async.each(
       stats,
       function iterator(stat, fn) {
-        storage.readFile('documents/' + stat.name, {encoding: 'utf8'}, function(err, data) {
-          if (err) {
-            console.error(err);
-            return fn(null);
-          }
+        if (stat.isFile) {
+          storage.readFile('documents/' + stat.name, {encoding: 'utf8'}, function(err, data) {
+            if (err) {
+              console.error(new Error(err).stack);
+              return fn(null);
+            }
 
-          switch (path.extname(stat.name)) {
-            case '.markdown':
-            case '.md':
-            case '.mdd':
-              documents[stat.name.replace(path.extname(stat.name), '')] = data;
-              fn(null);
-            break;
-            default:
-              fn(null);
-          }
-        });
+            switch (path.extname(stat.name)) {
+              case '.markdown':
+              case '.md':
+              case '.mdd':
+                documents[stat.name.replace(path.extname(stat.name), '')] = data;
+                fn(null);
+              break;
+              default:
+                fn(null);
+            }
+          });
+        }
       },
       function done(err) {
         callback(err, documents);
@@ -229,9 +230,7 @@ app.use(app.router);
 app.use(lessCSS({ src: path.join(__dirname, 'public') }));
 app.use(express.directory(path.join(__dirname, 'public'), { icons:true }));
 app.use(express.static(path.join(__dirname, 'public')));
-if (storage.protocol === 'dropbox') {
-  app.use(dropMW('public', storage));
-}
+app.use(dropMW('public', storage));
 app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 
