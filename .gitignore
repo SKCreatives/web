@@ -1,8 +1,9 @@
 # Mac stuff
 .DS_Store
 
+data/*
+!data/.gitkeep
 public/downloads/*
-data/cache/*
 public/css/style.css
 /credentials.*
 
