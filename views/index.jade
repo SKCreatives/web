@@ -133,6 +133,14 @@ block content
 
 
 
+	section#section-archive
+		h2.section-header Campaigns
+		each project in projects
+			if project.uri
+				+archive-card-mixin(project)
+
+
+
 	if (documents['apply'])
 		section#section-apply
 			div.markdown-container!= marked(documents['apply'])
@@ -145,9 +153,4 @@ block content
 
 
 
-	section#section-archive
-		h2.section-header Campaigns
-		each project in projects
-			if project.uri
-				+archive-card-mixin(project)
 
