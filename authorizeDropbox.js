@@ -27,7 +27,8 @@ dropboxClient.authenticate(function(error, client) {
   if (error) {
     console.log(error)
   } else {
-    console.log('---------------------')
-    console.log(client)
+    console.log('SUCCESS! Your DROPBOX_TOKEN is')
+    console.log(client._oauth._token)
+    process.exit();
   }
 });
