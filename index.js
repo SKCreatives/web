@@ -66,7 +66,9 @@ currency = currency({ storage: storage, credentials: credentials });
 function loadCampaigns(callback) {
   callback = callback || noop;
   storage.readFile('projects.yaml', {encoding:'utf8'}, function(err, data) {
-    if (err) return callback(err);
+    if (err) {
+      return callback(err);
+    }
 
     var projectsArray = [];
     try {
@@ -83,7 +85,10 @@ function loadCampaigns(callback) {
     } catch (e) {
       return callback(e);
     } finally {
-      if (err) return callback(err);
+      if (err) {
+        return callback(err);
+      }
+
       if (projectsArray.length) {
         projects = app.locals.projects = scraper.projects = projectsArray;
         callback(null, projects);
@@ -95,14 +100,18 @@ function loadCampaigns(callback) {
 }
 
 loadCampaigns(function(err, campaigns) {
-  if (err) console.log(err.stack);
+  if (err) {
+    console.log(err.stack);
+  }
 });
 
 // Load documents
 function loadDocuments(callback) {
   callback = callback || noop;
   storage.readdir('documents', function readdirCb(err, filenames, dirStat, stats) {
-    if (err) return callback(err);
+    if (err) {
+      return callback(err);
+    }
     async.each(
       stats,
       function iterator(stat, fn) {
