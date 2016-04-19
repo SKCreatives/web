@@ -1,5 +1,6 @@
 {
 	"port": 8080,
-	"stagingMode": false,
-	"storage": "dropbox://SK Live"
+
+	"trust proxy": true,
+	"x-powered-by": false
 }
