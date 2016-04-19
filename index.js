@@ -2,7 +2,6 @@ var path     = require('path');
 var http     = require('http');
 var express  = require('express');
 var connect  = require('connect');
-var jade     = require('jade');
 var lessCSS  = require('less-middleware');
 var marked   = require('marked');
 var yaml     = require('js-yaml');
@@ -10,11 +9,8 @@ var async    = require('async');
 var moment   = require('moment');
 var numeral  = require('numeral');
 var favicons = require('connect-favicons');
-var request  = require('request');
-var cheerio  = require('cheerio');
 var _        = require('lodash');
 var config   = require('config');
-var Dropbox  = require('dropbox');
 var scraper  = require('./lib/Scraper.js');
 var Project  = require('./lib/Project.js');
 var Storage  = require('./lib/Storage.js');
@@ -26,7 +22,6 @@ var app = module.exports = express();
 var port = process.env.PORT || 3000;
 var noop = function() {};
 var credentials;
-var dropbox;
 
 try {
   credentials = require('./credentials.json');
@@ -142,10 +137,7 @@ function loadDocuments(callback) {
   });
 }
 
-
-loadDocuments(function(err, docs) {
-  // console.log(docs);
-});
+loadDocuments(function(err, docs) {});
 
 
 
